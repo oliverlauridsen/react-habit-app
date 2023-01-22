@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { gapi } from 'gapi-script';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 import '../../assets/css/App.css';
-import Button from '../../components/UI/Button';
 import Container from '../../components/UI/Container';
 import Header from '../../components/UI/Header';
 import WelcomeSVG from '../../assets/images/meditate.svg';
@@ -10,10 +10,8 @@ import SunSVG from '../../assets/images/sun.svg';
 import '../../assets/css/index.css';
 import YogaLady from '../../components/UI/Yoga';
 import Sun from '../../components/UI/Sun';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import StyledForm from './StyledForm';
-import StyledMotion from '../../components/UI/Motion';
 import StyledGoogleButton from '../../components/UI/StyledGoogleButton';
+import { Example } from './Example';
 
 type Inputs = {
 	email: string;
@@ -34,15 +32,6 @@ function WelcomeScreen() {
 		gapi.load('client:auth2', initClient);
 	});
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<Inputs>();
-
-	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
-	// console.log(watch('email')); // watch input value by passing the name of it
-
 	return (
 		<div className='App'>
 			<Container>
@@ -54,12 +43,13 @@ function WelcomeScreen() {
 						Start a new routine, track your progress over time, compete with
 						friends and win money while improving yourself in the process!
 					</p>
+
 					<StyledGoogleButton
 						buttonText='Sign in with Google'
 						className='needsToBeHere'
 					></StyledGoogleButton>
-					<Button primary>Sign in with email</Button>
-					<StyledForm onSubmit={handleSubmit(onSubmit)}>
+					{/* <Button primary>Sign in with email</Button> */}
+					{/* <StyledForm onSubmit={handleSubmit(onSubmit)}>
 						<input
 							{...register('email', { required: 'Email is required' })}
 							placeholder='Email'
@@ -72,8 +62,11 @@ function WelcomeScreen() {
 						/>
 						<span>{errors.password?.message}</span>
 						<input type='submit' />
-					</StyledForm>
-					<StyledMotion className='box' />
+					</StyledForm> */}
+
+					<Example />
+
+					{/* <StyledMotion className='box' /> */}
 				</Container>
 			</Container>
 		</div>
