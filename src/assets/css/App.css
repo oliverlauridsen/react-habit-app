@@ -1,0 +1,12 @@
+.GoogleButton {
+	background: #ec603c;
+	border-radius: 3px;
+	border: none;
+	border-radius: 30px;
+	color: white;
+	margin-top: 20px;
+	padding: 1em;
+	width: 100%;
+	font-size: 1em;
+	font-weight: 600;
+}
