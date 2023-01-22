@@ -7,7 +7,7 @@ interface StyledContainerProps {
 const Container = styled.div<StyledContainerProps>`
 	text-align: center;
 	background: #fdf4e7;
-	height: 100vh;
+	min-height: 100vh;
 	margin: 0;
 
 	${(props) =>

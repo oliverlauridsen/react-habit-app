@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
+
 import '../../assets/css/App.css';
 import Button from '../../components/UI/Button';
 import Container from '../../components/UI/Container';
@@ -12,6 +12,8 @@ import YogaLady from '../../components/UI/Yoga';
 import Sun from '../../components/UI/Sun';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import StyledForm from './StyledForm';
+import StyledMotion from '../../components/UI/Motion';
+import StyledGoogleButton from '../../components/UI/StyledGoogleButton';
 
 type Inputs = {
 	email: string;
@@ -32,20 +34,13 @@ function WelcomeScreen() {
 		gapi.load('client:auth2', initClient);
 	});
 
-	const onSuccess = (res: Object) => {
-		console.log('success:', res);
-	};
-	const onFailure = (err: Error) => {
-		console.log('failed:', err);
-	};
-
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<Inputs>();
-	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
+	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 	// console.log(watch('email')); // watch input value by passing the name of it
 
 	return (
@@ -56,45 +51,29 @@ function WelcomeScreen() {
 					<YogaLady src={WelcomeSVG} alt='Your SVG' />
 					<Header>Welcome to Habit </Header>
 					<p>
-						{' '}
 						Start a new routine, track your progress over time, compete with
 						friends and win money while improving yourself in the process!
 					</p>
-					<GoogleLogin
-						clientId='85237359971-eg77ceikdaic9ubnnit2thkd88qt01ed.apps.googleusercontent.com'
-						render={(renderProps) => (
-							<button
-								onClick={renderProps.onClick}
-								disabled={renderProps.disabled}
-								className={'GoogleButton'}
-							>
-								Sign in with Google
-							</button>
-						)}
-						buttonText='Login'
-						onSuccess={onSuccess}
-						onFailure={onFailure}
-						cookiePolicy={'single_host_origin'}
-					/>{' '}
+					<StyledGoogleButton
+						buttonText='Sign in with Google'
+						className='needsToBeHere'
+					></StyledGoogleButton>
 					<Button primary>Sign in with email</Button>
 					<StyledForm onSubmit={handleSubmit(onSubmit)}>
-						{/* register your input into the hook by invoking the "register" function */}
 						<input
-							{...register('email', { required: true })}
+							{...register('email', { required: 'Email is required' })}
 							placeholder='Email'
 						/>
-						{errors.email && <span>This field is required</span>}
-
-						{/* include validation with required or other standard HTML validation rules */}
+						<span>{errors.email?.message}</span>
 						<input
-							{...register('password', { required: true })}
+							type='password'
+							{...register('password', { required: 'Password is required' })}
 							placeholder='Password'
 						/>
-						{/* errors will return when field validation fails  */}
-						{errors.password && <span>This field is required</span>}
-
+						<span>{errors.password?.message}</span>
 						<input type='submit' />
 					</StyledForm>
+					<StyledMotion className='box' />
 				</Container>
 			</Container>
 		</div>
