@@ -11,12 +11,22 @@ const StyledForm = styled.form`
 		padding: 10px;
 		border: none;
 		border-radius: 30px;
-		margin-bottom: 10px;
-		font-size: 16px;
+		margin-bottom: 20px;
+		padding: 1em;
+		font-size: 1em;
+		/* width: 100%; */
+		font-weight: 600;
 	}
 
 	input[type~='submit'] {
-		background-color: #ffcb5b;
+		background-color: #3b2a37;
+		border: none;
+		border-radius: 30px;
+		color: white;
+		padding: 1em;
+		font-size: 1em;
+		width: 100%;
+		font-weight: 600;
 	}
 `;
 

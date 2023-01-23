@@ -43,7 +43,7 @@ body {
 }
 
 .content-placeholder {
-	padding: 20px;
+	/* padding: 20px; */
 	transform-origin: top center;
 }
 
@@ -79,10 +79,6 @@ section {
 }
 
 @media (max-width: 600px) {
-	.content-placeholder {
-		padding-left: 20px;
-	}
-
 	.header .word {
 		height: 30px;
 	}

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ContentPlaceholder from './ContentPlaceholder';
+import AnimatedForm from './AnimatedForm';
 
 interface Props {
 	i: number;
@@ -41,9 +41,9 @@ const Accordion: React.FunctionComponent<Props> = ({
 							open: { opacity: 1, height: 'auto' },
 							collapsed: { opacity: 0, height: 0 },
 						}}
-						transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
+						transition={{ duration: 1, ease: [0.04, 0.62, 0.23, 0.98] }}
 					>
-						<ContentPlaceholder />
+						<AnimatedForm />
 					</motion.section>
 				)}
 			</AnimatePresence>
@@ -59,7 +59,12 @@ export const Example: Function = (): React.ReactElement[] => {
 	// return {options.map(opt => opt)}</>
 
 	return accordionIds.map((i) => (
-		<Accordion i={i} expanded={expanded} setExpanded={setExpanded} />
+		<Accordion
+			i={0}
+			key={i.toString()}
+			expanded={expanded}
+			setExpanded={setExpanded}
+		/>
 	));
 };
 

@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import { gapi } from 'gapi-script';
-import { useForm, SubmitHandler } from 'react-hook-form';
-
 import '../../assets/css/App.css';
 import Container from '../../components/UI/Container';
 import Header from '../../components/UI/Header';
@@ -12,16 +10,14 @@ import YogaLady from '../../components/UI/Yoga';
 import Sun from '../../components/UI/Sun';
 import StyledGoogleButton from '../../components/UI/StyledGoogleButton';
 import { Example } from './Example';
-
-type Inputs = {
-	email: string;
-	password: string;
-};
+import { db } from '../../utils/firebase';
+import { onValue, ref } from 'firebase/database';
 
 function WelcomeScreen() {
 	const clientId =
 		'85237359971-eg77ceikdaic9ubnnit2thkd88qt01ed.apps.googleusercontent.com';
 
+	console.log(db);
 	useEffect(() => {
 		const initClient = () => {
 			gapi.client.init({

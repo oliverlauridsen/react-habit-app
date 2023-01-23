@@ -8,7 +8,7 @@ type Inputs = {
 	password: string;
 };
 
-function ContentPlaceholder() {
+function AnimatedForm() {
 	const {
 		register,
 		handleSubmit,
@@ -41,4 +41,4 @@ function ContentPlaceholder() {
 	);
 }
 
-export default ContentPlaceholder;
+export default AnimatedForm;
