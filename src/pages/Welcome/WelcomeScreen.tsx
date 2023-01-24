@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { gapi } from 'gapi-script';
 import '../../assets/css/App.css';
 import Container from '../../components/UI/Container';
@@ -10,6 +10,7 @@ import YogaLady from '../../components/UI/Yoga';
 import Sun from '../../components/UI/Sun';
 import StyledGoogleButton from '../../components/UI/StyledGoogleButton';
 import { Example } from './Example';
+import { Link } from 'react-router-dom';
 // import { addDoc, collection, getDocs } from 'firebase/firestore';
 
 function WelcomeScreen() {
@@ -26,10 +27,8 @@ function WelcomeScreen() {
 		gapi.load('client:auth2', initClient);
 	});
 
-	const [message, setMessage] = useState('Hello World');
-
 	const testFunctionToChild = (message: string) => {
-		setMessage(message);
+		// setMessage(message);
 	};
 
 	// const [users, setUsers] = useState<object[]>([]);
@@ -47,7 +46,7 @@ function WelcomeScreen() {
 	// };
 
 	return (
-		<div className='App'>
+		<>
 			<Container>
 				<Container contentWrapper>
 					<Sun src={SunSVG} alt='Your SVG' />
@@ -55,7 +54,7 @@ function WelcomeScreen() {
 					<Header>Welcome to Habit </Header>
 					<p>
 						Start a new routine, track your progress over time, compete with
-						friends and win money while improving yourself in the process!
+						friends and earn money while improving yourself in the process!
 					</p>
 
 					<StyledGoogleButton
@@ -64,9 +63,10 @@ function WelcomeScreen() {
 					></StyledGoogleButton>
 
 					<Example testFunctionToChild={testFunctionToChild} />
+					<div></div>
 				</Container>
 			</Container>
-		</div>
+		</>
 	);
 }
 
