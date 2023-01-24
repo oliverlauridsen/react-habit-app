@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { gapi } from 'gapi-script';
 import '../../assets/css/App.css';
 import Container from '../../components/UI/Container';
@@ -10,14 +10,12 @@ import YogaLady from '../../components/UI/Yoga';
 import Sun from '../../components/UI/Sun';
 import StyledGoogleButton from '../../components/UI/StyledGoogleButton';
 import { Example } from './Example';
-import { db } from '../../utils/firebase';
-import { onValue, ref } from 'firebase/database';
+// import { addDoc, collection, getDocs } from 'firebase/firestore';
 
 function WelcomeScreen() {
 	const clientId =
 		'85237359971-eg77ceikdaic9ubnnit2thkd88qt01ed.apps.googleusercontent.com';
 
-	console.log(db);
 	useEffect(() => {
 		const initClient = () => {
 			gapi.client.init({
@@ -27,6 +25,26 @@ function WelcomeScreen() {
 		};
 		gapi.load('client:auth2', initClient);
 	});
+
+	const [message, setMessage] = useState('Hello World');
+
+	const testFunctionToChild = (message: string) => {
+		setMessage(message);
+	};
+
+	// const [users, setUsers] = useState<object[]>([]);
+
+	// const addUser = async () => {
+	// 	try {
+	// 		const docRef = await addDoc(collection(db, 'users'), {
+	// 			email: 'test@hotmail.com',
+	// 			password: 'test',
+	// 		});
+	// 		console.log('Document written with ID: ', docRef.id);
+	// 	} catch (e) {
+	// 		console.error('Error adding document: ', e);
+	// 	}
+	// };
 
 	return (
 		<div className='App'>
@@ -44,25 +62,8 @@ function WelcomeScreen() {
 						buttonText='Sign in with Google'
 						className='needsToBeHere'
 					></StyledGoogleButton>
-					{/* <Button primary>Sign in with email</Button> */}
-					{/* <StyledForm onSubmit={handleSubmit(onSubmit)}>
-						<input
-							{...register('email', { required: 'Email is required' })}
-							placeholder='Email'
-						/>
-						<span>{errors.email?.message}</span>
-						<input
-							type='password'
-							{...register('password', { required: 'Password is required' })}
-							placeholder='Password'
-						/>
-						<span>{errors.password?.message}</span>
-						<input type='submit' />
-					</StyledForm> */}
 
-					<Example />
-
-					{/* <StyledMotion className='box' /> */}
+					<Example testFunctionToChild={testFunctionToChild} />
 				</Container>
 			</Container>
 		</div>

@@ -7,6 +7,7 @@ interface Props {
 	i: number;
 	expanded: number | false;
 	setExpanded: React.Dispatch<React.SetStateAction<number | false>>;
+	testFunctionToChild: (message: string) => void;
 }
 
 const Accordion: React.FunctionComponent<Props> = ({
@@ -51,7 +52,9 @@ const Accordion: React.FunctionComponent<Props> = ({
 	);
 };
 
-export const Example: Function = (): React.ReactElement[] => {
+export const Example: Function = (
+	testFunctionToChild: (message: string) => void
+): React.ReactElement[] => {
 	// This approach is if you only want max one section open at a time. If you want multiple
 	// sections to potentially be open simultaneously, they can all be given their own `useState`.
 	const [expanded, setExpanded] = useState<false | number>(1);
@@ -64,6 +67,7 @@ export const Example: Function = (): React.ReactElement[] => {
 			key={i.toString()}
 			expanded={expanded}
 			setExpanded={setExpanded}
+			testFunctionToChild={testFunctionToChild}
 		/>
 	));
 };

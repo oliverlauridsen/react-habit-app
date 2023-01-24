@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 
 interface StyledContainerProps {
 	contentWrapper?: Boolean;
+	children: JSX.Element | JSX.Element[];
 }
 
 const Container = styled.div<StyledContainerProps>`
