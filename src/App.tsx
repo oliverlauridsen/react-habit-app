@@ -3,13 +3,16 @@ import {
 	createBrowserRouter,
 	createRoutesFromElements,
 	Route,
-	Link,
 	Outlet,
 	RouterProvider,
 } from 'react-router-dom';
+import { StyledNavBar } from './components/navigation/NavBar';
 import ErrorPage from './pages/Error/ErrorPage';
-import { About } from './pages/Intro/About';
+import { HomeDashboard } from './pages/Home/HomeDashboard';
 import { IntroScreen } from './pages/Intro/IntroScreen';
+import { HabitDashboard } from './pages/MyHabits/HabitDashboard';
+import { ProfileDashboard } from './pages/Profile/ProfileDashboard';
+import { SettingsDashboard } from './pages/Settings/SettingsDashboard';
 import WelcomeScreen from './pages/Welcome/WelcomeScreen';
 
 export const App: React.FC = () => {
@@ -17,9 +20,12 @@ export const App: React.FC = () => {
 		createRoutesFromElements(
 			<Route path='/' element={<Root />}>
 				<Route index element={<WelcomeScreen />}></Route>
-				<Route path='/about' element={<About />}></Route>
 				<Route path='/intro' element={<IntroScreen />}></Route>
 				<Route path='*' element={<ErrorPage />}></Route>
+				<Route path='/home' element={<HomeDashboard />}></Route>
+				<Route path='/habits' element={<HabitDashboard />}></Route>
+				<Route path='/user' element={<ProfileDashboard />}></Route>
+				<Route path='/settings' element={<SettingsDashboard />}></Route>
 			</Route>
 		)
 	);
@@ -32,14 +38,18 @@ export const App: React.FC = () => {
 };
 
 const Root = () => {
+	const currentURL = window.location.href;
+	let navBarIsShown = false;
+
+	if (
+		currentURL !== 'http://localhost:3000/' &&
+		currentURL !== 'http://localhost:3000/intro'
+	) {
+		navBarIsShown = true;
+	}
 	return (
 		<div>
-			{
-				// TODO: Think about how to add the <Link />'s later on in the application
-				// Most likely, this can be accomplished simply by adding the <Link/> later on
-			}
-			{/* <Link to='/'>Home</Link>
-			<Link to='/about'>About</Link> */}
+			{navBarIsShown && <StyledNavBar className='navbar' />}
 			<Outlet />
 		</div>
 	);

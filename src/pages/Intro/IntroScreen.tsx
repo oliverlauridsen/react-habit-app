@@ -24,7 +24,7 @@ export const IntroScreen = () => {
 	const navigate = useNavigate();
 
 	const exitIntroFlow = () => {
-		navigate('/test');
+		navigate('/home');
 	};
 
 	return (
