@@ -29,7 +29,7 @@ const Accordion: React.FunctionComponent<Props> = ({
 				}}
 				onClick={() => setExpanded(isOpen ? false : i)}
 			>
-				Sign in with email
+				Sign up with email
 			</motion.header>
 			<AnimatePresence initial={false}>
 				{isOpen && (

@@ -6,11 +6,10 @@ import Header from '../../components/UI/Header';
 import WelcomeSVG from '../../assets/images/meditate.svg';
 import SunSVG from '../../assets/images/sun.svg';
 import '../../assets/css/index.css';
-import YogaLady from '../../components/UI/Yoga';
+import CustomImage from '../../components/UI/CustomImage';
 import Sun from '../../components/UI/Sun';
 import StyledGoogleButton from '../../components/UI/StyledGoogleButton';
 import { Example } from './Example';
-import { Link } from 'react-router-dom';
 // import { addDoc, collection, getDocs } from 'firebase/firestore';
 
 function WelcomeScreen() {
@@ -50,7 +49,7 @@ function WelcomeScreen() {
 			<Container>
 				<Container contentWrapper>
 					<Sun src={SunSVG} alt='Your SVG' />
-					<YogaLady src={WelcomeSVG} alt='Your SVG' />
+					<CustomImage src={WelcomeSVG} alt='Your SVG' />
 					<Header>Welcome to Habit </Header>
 					<p>
 						Start a new routine, track your progress over time, compete with
@@ -58,7 +57,7 @@ function WelcomeScreen() {
 					</p>
 
 					<StyledGoogleButton
-						buttonText='Sign in with Google'
+						buttonText='Sign up with Google'
 						className='needsToBeHere'
 					></StyledGoogleButton>
 

@@ -5,6 +5,12 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../utils/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+
+// WHERE DID I LEAVE IT????
+// Add route to /intro/
+// Add content to /intro/
+// Figure out how I can start the navigation AFTER the intro (the actual UI)
 
 type Inputs = {
 	email: string;
@@ -24,6 +30,8 @@ function AnimatedForm() {
 	// const [loginPassword, setLoginPassword] = useState('');
 	const [user, setUser] = useState<any>({});
 
+	const navigate = useNavigate();
+
 	onAuthStateChanged(auth, (currentUser) => {
 		setUser(currentUser);
 	});
@@ -35,7 +43,7 @@ function AnimatedForm() {
 				registerEmail,
 				registerPassword
 			);
-			alert(user);
+			navigate('/intro');
 		} catch (error: any) {
 			console.log(error.message);
 		}
