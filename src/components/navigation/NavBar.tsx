@@ -42,7 +42,6 @@ export const StyledNavBar = styled(NavBar)`
 	}
 	img {
 		width: 25px;
-		height: 25px;
 		padding: 20px 0;
 	}
 

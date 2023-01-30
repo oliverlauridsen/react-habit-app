@@ -7,11 +7,6 @@ import { auth } from '../../utils/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
-// WHERE DID I LEAVE IT????
-// Add route to /intro/
-// Add content to /intro/
-// Figure out how I can start the navigation AFTER the intro (the actual UI)
-
 type Inputs = {
 	email: string;
 	password: string;
