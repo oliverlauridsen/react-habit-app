@@ -8,11 +8,13 @@ interface CircularProgressBarProps {
 	text: string;
 	percentage: number;
 	className?: string;
+	onClick?: React.MouseEventHandler<HTMLElement> | undefined;
 }
 
 export const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
 	percentage,
 	className,
+	onClick,
 }) => {
 	return (
 		<CircularProgressbar

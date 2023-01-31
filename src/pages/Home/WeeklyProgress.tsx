@@ -1,23 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RightArrow from '../../assets/images/rightArrow.svg';
 import styled from 'styled-components';
 import { StyledCircularProgressBar } from '../../components/UI/StyledCircularProgressBar';
+import { useNavigate } from 'react-router-dom';
 
 interface WeeklyProgressProps {
 	className?: string;
 	habitName: string;
 	categoryName: string;
+	onClick?: React.MouseEventHandler<HTMLElement> | undefined;
 }
 
 export const WeeklyProgress: React.FC<WeeklyProgressProps> = ({
 	className,
 	habitName,
 	categoryName,
+	onClick,
 }) => {
-	const percentage = 10;
+	const [percentage, setPercentage] = useState(25);
+	const navigate = useNavigate();
 
 	return (
-		<div className={className}>
+		<div className={className} onClick={onClick}>
 			<div className='single-habit-wrapper'>
 				<div className='single-habit-wrapper-left-column'>
 					<StyledCircularProgressBar
@@ -60,7 +64,7 @@ export const StyledWeeklyProgress = styled(WeeklyProgress)`
 		display: flex;
 		flex-direction: row;
 		background-color: #fff;
-		padding: 25px;
+		padding: 10px 20px;
 		width: 100%;
 		justify-content: space-between;
 		border-bottom: 1px solid #efeff3;

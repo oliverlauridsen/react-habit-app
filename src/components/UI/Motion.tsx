@@ -17,8 +17,7 @@ const Motion: React.FunctionComponent<MotionProps> = ({ className }) => (
 const StyledMotion = styled(Motion)`
 	width: 200px;
 	height: 200px;
-	border-radius: 50%;
-	background: blue;
+	border-radius: 5px;
 `;
 
 export default StyledMotion;

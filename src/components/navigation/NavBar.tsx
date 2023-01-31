@@ -51,7 +51,7 @@ export const StyledNavBar = styled(NavBar)`
 		width: 50px;
 		height: 50px;
 		background-color: #ffcb5b;
-		border-radius: 100px;
+		border-radius: 5px;
 		border: none;
 		font-size: 30px;
 		color: white;

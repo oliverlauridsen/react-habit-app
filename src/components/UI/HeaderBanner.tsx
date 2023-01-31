@@ -31,7 +31,7 @@ export const StyledHeaderBanner = styled(HeaderBanner)`
 
 	.headerBanner {
 		background-color: #ffcb5b;
-		border-radius: 30px;
+		border-radius: 5px;
 		width: 100%;
 		height: 100%;
 		display: flex;

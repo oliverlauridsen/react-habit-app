@@ -11,6 +11,7 @@ import ErrorPage from './pages/Error/ErrorPage';
 import { HomeDashboard } from './pages/Home/HomeDashboard';
 import { IntroScreen } from './pages/Intro/IntroScreen';
 import { HabitDashboard } from './pages/MyHabits/HabitDashboard';
+import { SingleHabit } from './pages/MyHabits/SingleHabit';
 import { ProfileDashboard } from './pages/Profile/ProfileDashboard';
 import { SettingsDashboard } from './pages/Settings/SettingsDashboard';
 import WelcomeScreen from './pages/Welcome/WelcomeScreen';
@@ -26,6 +27,7 @@ export const App: React.FC = () => {
 				<Route path='/habits' element={<HabitDashboard />}></Route>
 				<Route path='/user' element={<ProfileDashboard />}></Route>
 				<Route path='/settings' element={<SettingsDashboard />}></Route>
+				<Route path='/habit/:habitID' element={<SingleHabit />} />
 			</Route>
 		)
 	);

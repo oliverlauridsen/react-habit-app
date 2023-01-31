@@ -7,9 +7,8 @@ interface StyledButtonProps {
 
 const Button = styled.button<StyledButtonProps>`
 	background: #ec603c;
-	border-radius: 3px;
 	border: none;
-	border-radius: 30px;
+	border-radius: 5px;
 	color: white;
 	margin-top: 20px;
 	padding: 1em;
