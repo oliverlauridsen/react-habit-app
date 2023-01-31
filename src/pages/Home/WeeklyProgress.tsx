@@ -52,7 +52,6 @@ export const StyledWeeklyProgress = styled(WeeklyProgress)`
 	display: flex;
 	flex-direction: column;
 	margin: auto;
-	/* padding-top: 50px; */
 
 	.weekly-progress-wrapper {
 		display: flex;
