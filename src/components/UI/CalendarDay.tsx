@@ -11,7 +11,6 @@ interface CalendarDayProps {
 export const CalendarDay: React.FC<CalendarDayProps> = ({
 	className,
 	children,
-	primary,
 }) => {
 	return <div className={className}>{children}</div>;
 };
@@ -20,7 +19,7 @@ export const StyledCalendarDay = styled(CalendarDay)`
 	background-color: #ec603c;
 	border-radius: 5px;
 	color: white;
-	padding: 15px 0;
+	/* padding: 15px 0; */
 	display: flex;
 	flex-direction: column;
 

@@ -3,6 +3,7 @@ import { StyledCalendarDay } from '../../components/UI/CalendarDay';
 import ColoredContainer from '../../components/UI/ContainerColored';
 import { StyledHeaderBanner } from '../../components/UI/HeaderBanner';
 import { StyledMainContentWrapper } from '../../components/UI/MainContentWrapper';
+import { StyledProgressBar } from '../../components/UI/ProgressBar';
 
 interface HabitDashboardProps {}
 
@@ -37,19 +38,23 @@ export const HabitDashboard: React.FC<HabitDashboardProps> = () => {
 	const daysOfTheWeek = daysToShow.map((dayNumber) => {
 		return dayNumber === new Date().getDate() ? (
 			<StyledCalendarDay className='styledCalendarDay' key={dayNumber}>
-				<p>{`${getDayName(
-					`0${currentMonthNumber}/0${dayNumber}/2023`,
-					'en-dk'
-				)}`}</p>
-				<p>{dayNumber}</p>
+				<div>
+					<p>{`${getDayName(
+						`0${currentMonthNumber}/0${dayNumber}/2023`,
+						'en-dk'
+					)}`}</p>
+					<p>{dayNumber}</p>
+				</div>
 			</StyledCalendarDay>
 		) : (
 			<StyledCalendarDay primary className='styledCalendarDay' key={dayNumber}>
-				<p>{`${getDayName(
-					`0${currentMonthNumber}/0${dayNumber}/2023`,
-					'en-dk'
-				)}`}</p>
-				<p>{dayNumber}</p>
+				<div>
+					<p>{`${getDayName(
+						`0${currentMonthNumber}/0${dayNumber}/2023`,
+						'en-dk'
+					)}`}</p>
+					<p>{dayNumber}</p>
+				</div>
 			</StyledCalendarDay>
 		);
 	});
@@ -60,6 +65,7 @@ export const HabitDashboard: React.FC<HabitDashboardProps> = () => {
 			<StyledMainContentWrapper className='d-flex flex-row justify-content-around'>
 				{daysOfTheWeek}
 			</StyledMainContentWrapper>
+			<StyledProgressBar />
 		</ColoredContainer>
 	);
 };

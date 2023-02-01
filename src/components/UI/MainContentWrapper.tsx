@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 interface MainContentWrapperProps {
 	className?: string;
-	children: JSX.Element[];
+	children: JSX.Element[] | JSX.Element;
 }
 
 export const MainContentWrapper: React.FC<MainContentWrapperProps> = ({
@@ -23,6 +23,7 @@ export const StyledMainContentWrapper = styled(MainContentWrapper)`
 	margin: 25px auto;
 	flex-direction: column;
 	overflow-x: scroll;
+	padding-left: 0;
 
 	.children-wrapper {
 		display: flex;
@@ -32,8 +33,18 @@ export const StyledMainContentWrapper = styled(MainContentWrapper)`
 		width: 100vw;
 		gap: 10px;
 	}
+
+	.styledCalendarDay {
+		padding: 5px;
+
+		div {
+			width: 50px;
+			height: 50px;
+		}
+	}
+
 	div {
-		padding: 10px 20px;
+		/* padding: 10px 20px; */
 		/* margin-right: 10px; */
 	}
 `;

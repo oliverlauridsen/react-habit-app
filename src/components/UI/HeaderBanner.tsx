@@ -36,12 +36,14 @@ export const StyledHeaderBanner = styled(HeaderBanner)`
 		height: 100%;
 		display: flex;
 		padding: 40px 20px;
+		text-align: left;
 	}
 	div {
 		height: 100%;
 	}
 	h1 {
 		font-size: 20px;
+		font-weight: 900;
 	}
 
 	p {
