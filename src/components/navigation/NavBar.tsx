@@ -28,7 +28,7 @@ const NavBar: React.FC<NavBarProps> = ({ className }) => {
 
 export const StyledNavBar = styled(NavBar)`
 	width: 100%;
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	background-color: white;
 	justify-content: space-around;

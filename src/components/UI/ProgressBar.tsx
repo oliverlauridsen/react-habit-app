@@ -8,7 +8,7 @@ interface ProgressBarWithLabelInterface {
 export const ProgressBarWithLabel: React.FC<ProgressBarWithLabelInterface> = ({
 	className,
 }) => {
-	const now = 50;
+	const now = 25;
 	return <ProgressBar className={className} now={now} label={`${now}%`} />;
 };
 

@@ -4,6 +4,8 @@ import ColoredContainer from '../../components/UI/ContainerColored';
 import { StyledHeaderBanner } from '../../components/UI/HeaderBanner';
 import { StyledMainContentWrapper } from '../../components/UI/MainContentWrapper';
 import { StyledProgressBar } from '../../components/UI/ProgressBar';
+import { Styledhabits } from './Habits/Habits';
+import { StyledHabitBox } from './Habits/Habit/Habit';
 
 interface HabitDashboardProps {}
 
@@ -66,6 +68,7 @@ export const HabitDashboard: React.FC<HabitDashboardProps> = () => {
 				{daysOfTheWeek}
 			</StyledMainContentWrapper>
 			<StyledProgressBar />
+			<Styledhabits />
 		</ColoredContainer>
 	);
 };

@@ -20,7 +20,7 @@ export const MainContentWrapper: React.FC<MainContentWrapperProps> = ({
 
 export const StyledMainContentWrapper = styled(MainContentWrapper)`
 	width: 90%;
-	margin: 25px auto;
+	margin: 20px auto 5px auto;
 	flex-direction: column;
 	overflow-x: scroll;
 	padding-left: 0;
@@ -32,6 +32,7 @@ export const StyledMainContentWrapper = styled(MainContentWrapper)`
 		overflow-x: scroll;
 		width: 100vw;
 		gap: 10px;
+		padding-bottom: 15px;
 	}
 
 	.styledCalendarDay {
