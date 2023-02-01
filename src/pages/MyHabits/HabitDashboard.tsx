@@ -11,7 +11,7 @@ export const HabitDashboard: React.FC<HabitDashboardProps> = () => {
 		return new Date(year, month, 0).getDate();
 	};
 
-	//TODO: REFACTOR INTO FOR LOOP
+	// TODO: REFACTOR INTO FOR LOOP
 	// Check the current day and make it the first.
 	// Also allow for backtracking.
 
@@ -20,18 +20,39 @@ export const HabitDashboard: React.FC<HabitDashboardProps> = () => {
 	// We want the days to be clickable, thereby, toggling the content of the website to reflect the state of that day (and also have the data editable for any day chosen)
 	// We also want to default the scrollable div to be located the current day whenever we load the component (meaning, if the user scrolls back 30 days, it shouldn't
 	// Stay there when they revisit the site, but instead have the bar scrolled to the current day.
-	const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-	let d = new Date();
-	let dayName = days[d.getDay()];
-	console.log(dayName);
+	let currentMonthNumber = new Date().getMonth() + 1;
+	let daysOfCurrentMonth = getDays(2023, currentMonthNumber);
+	const daysToShow = [];
 
-	const daysOfTheWeek = days.map((day) => (
-		<StyledCalendarDay className='styledCalendarDay' key={day}>
-			{day}
-			{/* {` ${getDays(2023, 1)}`} */}
-		</StyledCalendarDay>
-	));
+	for (let i = 1; i <= daysOfCurrentMonth; i++) {
+		daysToShow.push(i);
+	}
+
+	function getDayName(dateStr: string, locale: string) {
+		let date = new Date(dateStr);
+		return date.toLocaleDateString(locale, { weekday: 'short' });
+	}
+
+	const daysOfTheWeek = daysToShow.map((dayNumber) => {
+		return dayNumber === new Date().getDate() ? (
+			<StyledCalendarDay className='styledCalendarDay' key={dayNumber}>
+				<p>{`${getDayName(
+					`0${currentMonthNumber}/0${dayNumber}/2023`,
+					'en-dk'
+				)}`}</p>
+				<p>{dayNumber}</p>
+			</StyledCalendarDay>
+		) : (
+			<StyledCalendarDay primary className='styledCalendarDay' key={dayNumber}>
+				<p>{`${getDayName(
+					`0${currentMonthNumber}/0${dayNumber}/2023`,
+					'en-dk'
+				)}`}</p>
+				<p>{dayNumber}</p>
+			</StyledCalendarDay>
+		);
+	});
 
 	return (
 		<ColoredContainer>
