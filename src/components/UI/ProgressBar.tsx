@@ -16,7 +16,6 @@ export const StyledProgressBar = styled(ProgressBarWithLabel)`
 	width: 90%;
 	margin: 0 auto;
 	background-color: white;
-	height: 25px;
 	border-radius: 5px;
 
 	.progress-bar {
