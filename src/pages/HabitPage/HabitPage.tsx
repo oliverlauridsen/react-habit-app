@@ -11,8 +11,6 @@ export const HabitDashboard: React.FC<HabitDashboardProps> = () => {
 	const [currentPrimary, setCurrentPrimary] = useState(new Date().getDate());
 	const [progressPercentage, setprogressPercentage] = useState(25);
 
-	console.log(currentPrimary);
-
 	return (
 		<ColoredContainer>
 			<StyledHeaderBanner className='headerBanner' />

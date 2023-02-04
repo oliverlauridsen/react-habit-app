@@ -11,7 +11,7 @@ import Sun from '../../components/UI/Sun';
 import StyledGoogleButton from '../../components/UI/StyledGoogleButton';
 import { Example } from './Example';
 // import { addDoc, collection, getDocs } from 'firebase/firestore';
-import { SignInForm, StyledSignInForm } from './SignInForm';
+import { StyledSignInForm } from './SignInForm';
 
 function WelcomeScreen() {
 	const clientId =

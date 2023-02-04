@@ -25,7 +25,6 @@ export const SignInForm: React.FC<SignInFormProps> = ({ className }) => {
 			.then((userCredential) => {
 				// Signed in
 				const user = userCredential.user;
-				console.log(user);
 				navigate(`/habits/${today}`);
 			})
 			.catch((error) => {
