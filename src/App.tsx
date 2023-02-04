@@ -15,6 +15,7 @@ import { SingleHabit } from './components/navigation/RouteSingleHabit';
 import { ProfileDashboard } from './pages/Profile/ProfileDashboard';
 import { SettingsDashboard } from './pages/Settings/SettingsDashboard';
 import WelcomeScreen from './pages/Welcome/WelcomeScreen';
+import { Styledhabits } from './pages/HabitPage/Habits/Habits';
 
 export const App: React.FC = () => {
 	const router = createBrowserRouter(
@@ -24,7 +25,9 @@ export const App: React.FC = () => {
 				<Route path='/intro' element={<IntroScreen />}></Route>
 				<Route path='*' element={<ErrorPage />}></Route>
 				<Route path='/home' element={<HomeDashboard />}></Route>
-				<Route path='/habits' element={<HabitDashboard />}></Route>
+				<Route path='/habits' element={<HabitDashboard />}>
+					<Route path=':dayNumber' element={<Styledhabits />}></Route>
+				</Route>
 				<Route path='/user' element={<ProfileDashboard />}></Route>
 				<Route path='/settings' element={<SettingsDashboard />}></Route>
 				<Route path='/habit/:habitID' element={<SingleHabit />} />

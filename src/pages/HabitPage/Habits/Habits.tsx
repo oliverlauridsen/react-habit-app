@@ -1,12 +1,17 @@
 import React from 'react';
 import { StyledHabitBox } from './Habit/Habit';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
 
 interface HabitsProps {
 	className?: string;
 }
 
 export const Habits: React.FC<HabitsProps> = ({ className }) => {
+	const { dayNumber } = useParams();
+
+	console.log(dayNumber);
+
 	return (
 		<div className={className}>
 			<StyledHabitBox

@@ -1,32 +1,75 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
-interface CalendarDayProps {
+interface Props {
 	className?: string;
 	key: number;
-	children?: JSX.Element[] | JSX.Element;
+	onClick?: React.MouseEventHandler<HTMLElement>;
+	dayNumber: number;
+	children?: JSX.Element[];
 	primary?: Boolean;
-	onClick?: React.MouseEventHandler<HTMLElement> | undefined;
+	setCurrentPrimary: Function;
+	currentPrimary: number;
 }
 
-export const CalendarDay: React.FC<CalendarDayProps> = ({
+export const CalendarDay: React.FC<Props> = ({
 	className,
-	children,
-	onClick,
+	dayNumber,
+	currentPrimary,
+	setCurrentPrimary,
 }) => {
-	const [isActive, setIsActive] = useState(false);
+	const navigate = useNavigate();
+
+	const getDays = (year: number, month: number) => {
+		return new Date(year, month, 0).getDate();
+	};
+	const currentYear = new Date().getFullYear();
+	const currentMonthNumber = new Date().getMonth() + 1;
+	const daysOfCurrentMonth = getDays(currentYear, currentMonthNumber);
+	const daysToShow = [];
+
+	for (let i = 1; i <= daysOfCurrentMonth; i++) {
+		daysToShow.push(i);
+	}
+
+	function getDayName(dateStr: string, locale: string) {
+		let date = new Date(dateStr);
+		return date.toLocaleDateString(locale, { weekday: 'short' });
+	}
+
+	const setNewPrimaryAndRoute = () => {
+		// console.log('test');
+		setCurrentPrimary(dayNumber);
+		navigate(`${dayNumber}`);
+	};
 
 	return (
-		<div onClick={onClick} className={className}>
-			{children}
-		</div>
+		<StyledCalendarDay
+			key={dayNumber}
+			onClick={() => setNewPrimaryAndRoute()}
+			className={className}
+			dayNumber={dayNumber}
+			primary={dayNumber === currentPrimary}
+			currentPrimary={currentPrimary}
+			setCurrentPrimary={() => console.log('test')}
+		>
+			<p>
+				{`${getDayName(
+					`0${currentMonthNumber}/0${dayNumber}/${currentYear}`,
+					'en-dk'
+				)}`}
+			</p>
+			<p>{dayNumber}</p>
+		</StyledCalendarDay>
 	);
 };
 
-export const StyledCalendarDay = styled(CalendarDay)`
-	background-color: #ec603c;
+export const StyledCalendarDay = styled.div<Props>`
+	background-color: white;
 	border-radius: 5px;
-	color: white;
+	color: #3b2a37;
 	width: 50px;
 	height: 50px;
 	padding: 10px;
@@ -39,8 +82,10 @@ export const StyledCalendarDay = styled(CalendarDay)`
 	${(props) =>
 		props.primary &&
 		css`
-			background-color: white;
-			color: #3b2a37;
-			width: 100%;
+			background-color: #ec603c;
+			color: white;
+			width: 50px;
+			height: 50px;
+			padding: 10px;
 		`};
 `;

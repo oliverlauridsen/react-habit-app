@@ -3,13 +3,21 @@ import styled from 'styled-components';
 
 interface ProgressBarWithLabelInterface {
 	className?: string;
+	progressPercentage: number;
+	setprogressPercentage: Function;
 }
 
 export const ProgressBarWithLabel: React.FC<ProgressBarWithLabelInterface> = ({
 	className,
+	progressPercentage,
 }) => {
-	const now = 25;
-	return <ProgressBar className={className} now={now} label={`${now}%`} />;
+	return (
+		<ProgressBar
+			className={className}
+			now={progressPercentage}
+			label={`${progressPercentage}%`}
+		/>
+	);
 };
 
 export const StyledProgressBar = styled(ProgressBarWithLabel)`

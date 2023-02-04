@@ -1,69 +1,70 @@
 import styled from 'styled-components';
-import { StyledCalendarDay } from './CalendarDay.tsx/CalendarDay';
+import { CalendarDay } from './CalendarDay.tsx/CalendarDay';
 
-interface Props {}
+interface Props {
+	setCurrentPrimary: Function;
+	currentPrimary: number;
+}
 
 const StyledCalendarDays = styled.div<Props>`
-	width: 100vw;
-	margin: 20px 20px 0 20px;
+	width: 95vw;
+	margin: 20px 0 0 20px;
 	display: flex;
 	flex-direction: row;
 	overflow-x: scroll;
 	padding-left: 0;
 	gap: 10px;
+
+	::-webkit-scrollbar {
+		display: none;
+	}
+
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+
+	div:last-child {
+		margin-right: 20px;
+	}
 `;
 
-const CalendarDays = () => {
+const CalendarDays: React.FC<Props> = ({
+	currentPrimary,
+	setCurrentPrimary,
+}) => {
 	const getDays = (year: number, month: number) => {
 		return new Date(year, month, 0).getDate();
 	};
-
-	let currentMonthNumber = new Date().getMonth() + 1;
-	let daysOfCurrentMonth = getDays(2023, currentMonthNumber);
+	const currentYear = new Date().getFullYear();
+	const currentMonthNumber = new Date().getMonth() + 1;
+	const daysOfCurrentMonth = getDays(currentYear, currentMonthNumber);
 	const daysToShow = [];
 
 	for (let i = 1; i <= daysOfCurrentMonth; i++) {
 		daysToShow.push(i);
 	}
 
-	function getDayName(dateStr: string, locale: string) {
-		let date = new Date(dateStr);
-		return date.toLocaleDateString(locale, { weekday: 'short' });
-	}
-
+	// Get the amount of days for the given month and loop out the CalendarDay component
 	const daysOfTheWeek = daysToShow.map((dayNumber) => {
-		return dayNumber === new Date().getDate() ? (
-			<StyledCalendarDay
-				onClick={() => alert('test')}
-				className='styledCalendarDay'
+		return (
+			<CalendarDay
+				setCurrentPrimary={setCurrentPrimary}
+				currentPrimary={currentPrimary}
 				key={dayNumber}
-			>
-				<>
-					<p>{`${getDayName(
-						`0${currentMonthNumber}/0${dayNumber}/2023`,
-						'en-dk'
-					)}`}</p>
-					<p>{dayNumber}</p>
-				</>
-			</StyledCalendarDay>
-		) : (
-			<StyledCalendarDay
-				onClick={() => alert('test')}
-				primary
-				className='styledCalendarDay'
-				key={dayNumber}
-			>
-				<>
-					<p>{`${getDayName(
-						`0${currentMonthNumber}/0${dayNumber}/2023`,
-						'en-dk'
-					)}`}</p>
-					<p>{dayNumber}</p>
-				</>
-			</StyledCalendarDay>
+				dayNumber={dayNumber}
+			/>
 		);
 	});
-	return <StyledCalendarDays>{daysOfTheWeek}</StyledCalendarDays>;
+
+	return (
+		<div>
+			<StyledCalendarDays
+				setCurrentPrimary={setCurrentPrimary}
+				currentPrimary={currentPrimary}
+			>
+				{daysOfTheWeek}
+			</StyledCalendarDays>
+		</div>
+	);
 };
 
 export default CalendarDays;
