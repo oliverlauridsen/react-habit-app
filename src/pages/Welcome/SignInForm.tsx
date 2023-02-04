@@ -14,6 +14,8 @@ export const SignInForm: React.FC<SignInFormProps> = ({ className }) => {
 	const navigate = useNavigate();
 	const today = new Date().getDate();
 
+	//TODO: REFACTOR AWAY FROM :any
+
 	const signInUserWithEmailAndPassword = (
 		auth: any,
 		email: any,

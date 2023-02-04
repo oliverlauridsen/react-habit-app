@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../../utils/firebase';
+import uuid from 'react-uuid';
 
 interface HabitsProps {
 	className?: string;
@@ -12,11 +13,10 @@ interface HabitsProps {
 
 export const Habits: React.FC<HabitsProps> = ({ className }) => {
 	const auth = getAuth();
-	let uid: string;
 
 	onAuthStateChanged(auth, (user) => {
 		if (user) {
-			uid = user.uid;
+			const uid = user.uid;
 
 			if (uid !== currentUser) {
 				setCurrentUser(uid);
@@ -28,47 +28,40 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 	const [currentUser, setCurrentUser] = useState('test');
 	const [habits, setHabits] = useState([{}]);
 
-	useEffect(
-		() => {
-			// declare the data fetching function
-			const fetchData = async () => {
-				const querySnapshot = await getDocs(
-					collection(
-						db,
-						'Users',
-						currentUser,
-						'Dates',
-						'0' + dayNumber + '-02-2023',
-						'Habits'
-					)
-				);
-				let stateArray: Object[] = [];
-				querySnapshot.forEach((doc) => {
-					// console.log(doc.data());
-					stateArray.push(doc.data());
-				});
-				setHabits(stateArray);
-			};
+	useEffect(() => {
+		// declare the data fetching function
+		const fetchData = async () => {
+			const querySnapshot = await getDocs(
+				collection(
+					db,
+					'Users',
+					currentUser,
+					'Dates',
+					'0' + dayNumber + '-02-2023',
+					'Habits'
+				)
+			);
+			let stateArray: Object[] = [];
+			querySnapshot.forEach((doc) => {
+				stateArray.push(doc.data());
+			});
+			setHabits(stateArray);
+		};
 
-			// call the function
-			fetchData()
-				// make sure to catch any error
-				.catch(console.error);
-		},
-		[currentUser, dayNumber] // eslint-disable-line react-hooks/exhaustive-deps
-	);
+		fetchData().catch(console.error);
+	}, [currentUser, dayNumber]);
 
-	// REFACTOR AWAY FOR :any
-	// REFACTOR EMOJIE AND timeStart
+	//TODO: REFACTOR AWAY FROM :any
 	const renderedHabits = habits.map((habit: any) => {
 		return (
 			<StyledHabitBox
 				className='HabitBox'
 				isDone={habit.isDone}
 				duration={habit.Duration}
-				emojie='🏋️‍♂️'
+				emojie={habit.Emoji}
 				habitTitle={habit.Title}
-				timeStart='7:00'
+				timeStart={habit.timeStart}
+				key={uuid()}
 			/>
 		);
 	});

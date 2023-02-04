@@ -11,6 +11,7 @@ interface SingleHabitBoxProps {
 	duration: number;
 	emojie: string;
 	className: string;
+	key: string;
 }
 
 export const SingleHabitBox: React.FC<SingleHabitBoxProps> = ({
