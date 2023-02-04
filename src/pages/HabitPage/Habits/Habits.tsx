@@ -44,7 +44,7 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 				);
 				let stateArray: Object[] = [];
 				querySnapshot.forEach((doc) => {
-					console.log(doc.data());
+					// console.log(doc.data());
 					stateArray.push(doc.data());
 				});
 				setHabits(stateArray);
@@ -58,57 +58,22 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 		[currentUser, dayNumber] // eslint-disable-line react-hooks/exhaustive-deps
 	);
 
-	console.log(habits);
-
-	habits.map((habit) => {
-		// TODO:  HOW DO WE ACCESS THE habit.isDone property, etc.?
-		return console.log(habit);
-		// <StyledHabitBox
-		// 	className='HabitBox'
-		// 	isDone={habit.isDone}
-		// 	duration={1}
-		// 	emojie='🏋️‍♂️'
-		// 	habitTitle='Workout'
-		// 	timeStart='7:00'
-		// />;
-	});
-
-	return (
-		<div className={className}>
+	// REFACTOR AWAY FOR :any
+	// REFACTOR EMOJIE AND timeStart
+	const renderedHabits = habits.map((habit: any) => {
+		return (
 			<StyledHabitBox
 				className='HabitBox'
-				isDone
-				duration={1}
+				isDone={habit.isDone}
+				duration={habit.Duration}
 				emojie='🏋️‍♂️'
-				habitTitle='Workout'
+				habitTitle={habit.Title}
 				timeStart='7:00'
 			/>
-			<StyledHabitBox
-				className='HabitBox'
-				isDone={false}
-				duration={2}
-				emojie='🎹'
-				habitTitle='Piano'
-				timeStart='16:15'
-			/>
-			<StyledHabitBox
-				className='HabitBox'
-				isDone={false}
-				duration={0.5}
-				emojie='🧘'
-				habitTitle='Meditate'
-				timeStart='15:00'
-			/>
-			<StyledHabitBox
-				className='HabitBox'
-				isDone={false}
-				duration={1}
-				emojie='📖'
-				habitTitle='Read'
-				timeStart='20:00'
-			/>
-		</div>
-	);
+		);
+	});
+
+	return <div className={className}>{renderedHabits}</div>;
 };
 
 export const Styledhabits = styled(Habits)`
