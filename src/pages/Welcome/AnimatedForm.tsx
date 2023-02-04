@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import StyledForm from './StyledForm';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+} from 'firebase/auth';
 import { auth } from '../../utils/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
@@ -21,10 +24,7 @@ function AnimatedForm() {
 
 	const [registerEmail, setRegisterEmail] = useState('');
 	const [registerPassword, setRegisterPassword] = useState('');
-	// const [loginEmail, setLoginEmail] = useState('');
-	// const [loginPassword, setLoginPassword] = useState('');
 	const [user, setUser] = useState<any>({});
-
 	const navigate = useNavigate();
 
 	onAuthStateChanged(auth, (currentUser) => {
@@ -43,8 +43,6 @@ function AnimatedForm() {
 			console.log(error.message);
 		}
 	};
-	// const loginUser = async () => {};
-	// const logoutUser = async () => {};
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 

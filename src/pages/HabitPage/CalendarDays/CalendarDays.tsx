@@ -15,13 +15,6 @@ const StyledCalendarDays = styled.div<Props>`
 	padding-left: 0;
 	gap: 10px;
 
-	::-webkit-scrollbar {
-		display: none;
-	}
-
-	-ms-overflow-style: none;
-	scrollbar-width: none;
-
 	div:last-child {
 		margin-right: 20px;
 	}

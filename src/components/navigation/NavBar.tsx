@@ -12,15 +12,31 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ className }) => {
 	const navigate = useNavigate();
-
+	const today = new Date().getDate();
 	return (
 		<div className={className}>
 			<div>
-				<img onClick={() => navigate('/home')} src={HomeIcon} alt='' />
-				<img onClick={() => navigate('/habits')} src={HabitIcon} alt='' />
+				<img
+					onClick={() => navigate('/home')}
+					src={HomeIcon}
+					alt='House Icon'
+				/>
+				<img
+					onClick={() => navigate(`/habits/${today}`)}
+					src={HabitIcon}
+					alt='Habit Icon'
+				/>
 				<button> + </button>
-				<img onClick={() => navigate('/user')} src={PersonIcon} alt='' />
-				<img onClick={() => navigate('/settings')} src={SettingsIcon} alt='' />
+				<img
+					onClick={() => navigate('/user')}
+					src={PersonIcon}
+					alt='User Icon'
+				/>
+				<img
+					onClick={() => navigate('/settings')}
+					src={SettingsIcon}
+					alt='Settings Icon'
+				/>
 			</div>
 		</div>
 	);

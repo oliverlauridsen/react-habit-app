@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ColoredContainer from '../../components/UI/ContainerColored';
 import { StyledHeaderBanner } from '../../components/UI/HeaderBanner';
 import { StyledProgressBar } from '../../components/UI/ProgressBar';
-import { Styledhabits } from './Habits/Habits';
 import CalendarDays from './CalendarDays/CalendarDays';
 import { Outlet } from 'react-router-dom';
 

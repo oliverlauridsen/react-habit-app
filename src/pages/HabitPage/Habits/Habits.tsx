@@ -2,6 +2,7 @@ import React from 'react';
 import { StyledHabitBox } from './Habit/Habit';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 interface HabitsProps {
 	className?: string;
@@ -9,6 +10,14 @@ interface HabitsProps {
 
 export const Habits: React.FC<HabitsProps> = ({ className }) => {
 	const { dayNumber } = useParams();
+	const auth = getAuth();
+
+	onAuthStateChanged(auth, (user) => {
+		if (user) {
+			const uid = user.uid;
+			console.log(uid);
+		}
+	});
 
 	console.log(dayNumber);
 

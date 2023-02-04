@@ -21,8 +21,14 @@
 	background-color: #ffcb5b;
 }
 
+* ::-webkit-scrollbar {
+	display: none;
+}
+
 * {
 	box-sizing: border-box;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }
 
 .styled-weekly-progress-wrapper {

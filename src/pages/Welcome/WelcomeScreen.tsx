@@ -11,6 +11,7 @@ import Sun from '../../components/UI/Sun';
 import StyledGoogleButton from '../../components/UI/StyledGoogleButton';
 import { Example } from './Example';
 // import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { SignInForm, StyledSignInForm } from './SignInForm';
 
 function WelcomeScreen() {
 	const clientId =
@@ -30,20 +31,6 @@ function WelcomeScreen() {
 		// setMessage(message);
 	};
 
-	// const [users, setUsers] = useState<object[]>([]);
-
-	// const addUser = async () => {
-	// 	try {
-	// 		const docRef = await addDoc(collection(db, 'users'), {
-	// 			email: 'test@hotmail.com',
-	// 			password: 'test',
-	// 		});
-	// 		console.log('Document written with ID: ', docRef.id);
-	// 	} catch (e) {
-	// 		console.error('Error adding document: ', e);
-	// 	}
-	// };
-
 	return (
 		<>
 			<Container>
@@ -62,7 +49,8 @@ function WelcomeScreen() {
 					></StyledGoogleButton>
 
 					<Example testFunctionToChild={testFunctionToChild} />
-					<div></div>
+					<p> or </p>
+					<StyledSignInForm className='sign-in-form'></StyledSignInForm>
 				</Container>
 			</Container>
 		</>
