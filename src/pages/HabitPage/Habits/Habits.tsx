@@ -51,10 +51,25 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 		fetchData().catch(console.error);
 	}, [currentUser, dayNumber]);
 
+	const completeHabit = () => {
+		console.log(habits);
+		setHabits([
+			...habits,
+			{
+				Title: 'Test',
+				isDone: false,
+				timeStart: '14:00',
+				Emoji: '🎹',
+				Category: 'Test',
+			},
+		]);
+	};
+
 	//TODO: REFACTOR AWAY FROM :any
 	const renderedHabits = habits.map((habit: any) => {
 		return (
 			<StyledHabitBox
+				onClick={() => completeHabit()}
 				className='HabitBox'
 				isDone={habit.isDone}
 				duration={habit.Duration}

@@ -12,6 +12,7 @@ interface SingleHabitBoxProps {
 	emojie: string;
 	className: string;
 	key: string;
+	onClick: React.MouseEventHandler<HTMLElement> | undefined;
 }
 
 export const SingleHabitBox: React.FC<SingleHabitBoxProps> = ({
@@ -21,9 +22,10 @@ export const SingleHabitBox: React.FC<SingleHabitBoxProps> = ({
 	emojie,
 	className,
 	isDone,
+	onClick,
 }) => {
 	return (
-		<div className={className}>
+		<div onClick={onClick} className={className}>
 			{isDone ? (
 				<HabitStatusImage src={CheckMarkSVG} alt='checkmark' />
 			) : (
