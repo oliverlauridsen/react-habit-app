@@ -26,10 +26,25 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 		}
 	});
 
+	function addMinutes(minutes: number) {
+		const currentdate = new Date();
+
+		currentdate.setMinutes(currentdate.getMinutes() + minutes);
+
+		return currentdate;
+	}
+
+	const newDate = addMinutes(15);
 	const { dayNumber } = useParams();
 	const [currentUser, setCurrentUser] = useState('not empty');
 	const [habits, setHabits] = useState([{}]);
+	const [countDown, setCountDown] = useState(newDate);
+
 	const unDoneHabits = habits.filter((habit: any) => !habit.isDone).length;
+
+	useEffect(() => {
+		localStorage.setItem('mytime', newDate.getTime().toString());
+	}, [newDate]);
 
 	useEffect(() => {
 		// declare the data fetching function
@@ -66,6 +81,13 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 			setprogressPercentage((unDoneHabits * 100) / habits.length);
 		}
 	}, [habits, setprogressPercentage, unDoneHabits]);
+
+	//TODO:
+	// 1. Make a function before this completeHabit() function that replaces the habit UI with a countdown based on the duration of the habit.
+	// 2. Save the timer in localstorage.
+	// 3. Update the state to read the localstorage.
+	// 4. Make the habit "locked" until the timer has been reached.
+	// 5. Once the habit is "unlocked" the UI changes and the user can click the habit and finish it.
 
 	const completeHabit = (Id: string) => {
 		setHabits(
