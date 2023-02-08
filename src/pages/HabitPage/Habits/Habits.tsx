@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../../utils/firebase';
+import { useProgress } from '../HabitPage';
 import uuid from 'react-uuid';
 
 interface HabitsProps {
@@ -13,6 +14,7 @@ interface HabitsProps {
 
 export const Habits: React.FC<HabitsProps> = ({ className }) => {
 	const auth = getAuth();
+	const { progressPercentage, setprogressPercentage } = useProgress();
 
 	onAuthStateChanged(auth, (user) => {
 		if (user) {
@@ -25,8 +27,9 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 	});
 
 	const { dayNumber } = useParams();
-	const [currentUser, setCurrentUser] = useState('test');
+	const [currentUser, setCurrentUser] = useState('not empty');
 	const [habits, setHabits] = useState([{}]);
+	const unDoneHabits = habits.filter((habit: any) => !habit.isDone).length;
 
 	useEffect(() => {
 		// declare the data fetching function
@@ -51,26 +54,35 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 		fetchData().catch(console.error);
 	}, [currentUser, dayNumber]);
 
-	const completeHabit = () => {
-		console.log(habits);
-		setHabits([
-			...habits,
-			{
-				Title: 'Test',
-				isDone: false,
-				timeStart: '14:00',
-				Emoji: '🎹',
-				Category: 'Test',
-			},
-		]);
+	//TODO: REFACTOR - not the prettiest looking useEffect
+	useEffect(() => {
+		if (habits.length === 0) {
+			setprogressPercentage(0);
+		} else if (unDoneHabits === 0) {
+			setprogressPercentage(100);
+		} else if (unDoneHabits === habits.length) {
+			setprogressPercentage(0);
+		} else {
+			setprogressPercentage((unDoneHabits * 100) / habits.length);
+		}
+	}, [habits, setprogressPercentage, unDoneHabits]);
+
+	const completeHabit = (Id: string) => {
+		setHabits(
+			// TODO: REFACTOR AWAY FROM :any
+			habits.map((habit: any) => {
+				return habit.Id === Id ? { ...habit, isDone: !habit.isDone } : habit;
+			})
+		);
 	};
 
 	//TODO: REFACTOR AWAY FROM :any
 	const renderedHabits = habits.map((habit: any) => {
 		return (
 			<StyledHabitBox
-				onClick={() => completeHabit()}
+				onClick={() => completeHabit(habit.Id)}
 				className='HabitBox'
+				id={habit.Id}
 				isDone={habit.isDone}
 				duration={habit.Duration}
 				emojie={habit.Emoji}

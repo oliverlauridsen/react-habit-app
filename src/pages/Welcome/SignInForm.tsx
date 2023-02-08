@@ -15,7 +15,6 @@ export const SignInForm: React.FC<SignInFormProps> = ({ className }) => {
 	const today = new Date().getDate();
 
 	//TODO: REFACTOR AWAY FROM :any
-
 	const signInUserWithEmailAndPassword = (
 		auth: any,
 		email: any,
@@ -26,11 +25,11 @@ export const SignInForm: React.FC<SignInFormProps> = ({ className }) => {
 		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
 				// Signed in
-				const user = userCredential.user;
+				// const user = userCredential.user;
 				navigate(`/habits/${today}`);
 			})
 			.catch((error) => {
-				const errorCode = error.code;
+				// const errorCode = error.code;
 				const errorMessage = error.message;
 				console.log(errorMessage);
 			});

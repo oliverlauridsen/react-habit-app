@@ -13,6 +13,7 @@ interface SingleHabitBoxProps {
 	className: string;
 	key: string;
 	onClick: React.MouseEventHandler<HTMLElement> | undefined;
+	id: string;
 }
 
 export const SingleHabitBox: React.FC<SingleHabitBoxProps> = ({

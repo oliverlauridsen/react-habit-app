@@ -6,20 +6,6 @@ interface Props {
 	currentPrimary: number;
 }
 
-const StyledCalendarDays = styled.div<Props>`
-	width: 95vw;
-	margin: 20px 0 0 20px;
-	display: flex;
-	flex-direction: row;
-	overflow-x: scroll;
-	padding-left: 0;
-	gap: 10px;
-
-	div:last-child {
-		margin-right: 20px;
-	}
-`;
-
 const CalendarDays: React.FC<Props> = ({
 	currentPrimary,
 	setCurrentPrimary,
@@ -61,3 +47,17 @@ const CalendarDays: React.FC<Props> = ({
 };
 
 export default CalendarDays;
+
+const StyledCalendarDays = styled.div<Props>`
+	width: 95vw;
+	margin: 20px 0 0 20px;
+	display: flex;
+	flex-direction: row;
+	overflow-x: scroll;
+	padding-left: 0;
+	gap: 10px;
+
+	div:last-child {
+		margin-right: 20px;
+	}
+`;
