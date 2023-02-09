@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { StyledHabitBox } from './Habit/Habit';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../../utils/firebase';
 import { useProgress } from '../HabitPage';
 import uuid from 'react-uuid';
+import Countdown from 'react-countdown';
 
 interface HabitsProps {
 	className?: string;
@@ -14,7 +14,7 @@ interface HabitsProps {
 
 export const Habits: React.FC<HabitsProps> = ({ className }) => {
 	const auth = getAuth();
-	const { progressPercentage, setprogressPercentage } = useProgress();
+	const { setprogressPercentage } = useProgress();
 
 	onAuthStateChanged(auth, (user) => {
 		if (user) {
@@ -28,36 +28,32 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 
 	function addMinutes(minutes: number) {
 		const currentdate = new Date();
-
 		currentdate.setMinutes(currentdate.getMinutes() + minutes);
-
 		return currentdate;
 	}
 
-	const newDate = addMinutes(15);
-	const { dayNumber } = useParams();
 	const [currentUser, setCurrentUser] = useState('not empty');
 	const [habits, setHabits] = useState([{}]);
-	const [countDown, setCountDown] = useState(newDate);
+
+	const localStorageTime = new Date(Number(localStorage.getItem('mytime')));
+
+	if (localStorage.getItem('mytime') === null) {
+		localStorage.setItem('mytime', new Date().toString());
+	}
+
+	const [countDown, setCountDown] = useState(
+		new Date(localStorage.getItem('mytime')!)
+	);
+
+	console.log(countDown);
 
 	const unDoneHabits = habits.filter((habit: any) => !habit.isDone).length;
-
-	useEffect(() => {
-		localStorage.setItem('mytime', newDate.getTime().toString());
-	}, [newDate]);
 
 	useEffect(() => {
 		// declare the data fetching function
 		const fetchData = async () => {
 			const querySnapshot = await getDocs(
-				collection(
-					db,
-					'Users',
-					currentUser,
-					'Dates',
-					'0' + dayNumber + '-02-2023',
-					'Habits'
-				)
+				collection(db, 'Users', currentUser, 'Habits')
 			);
 			let stateArray: Object[] = [];
 			querySnapshot.forEach((doc) => {
@@ -67,7 +63,7 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 		};
 
 		fetchData().catch(console.error);
-	}, [currentUser, dayNumber]);
+	}, [currentUser]);
 
 	//TODO: REFACTOR - not the prettiest looking useEffect
 	useEffect(() => {
@@ -82,36 +78,83 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 		}
 	}, [habits, setprogressPercentage, unDoneHabits]);
 
-	//TODO:
-	// 1. Make a function before this completeHabit() function that replaces the habit UI with a countdown based on the duration of the habit.
-	// 2. Save the timer in localstorage.
-	// 3. Update the state to read the localstorage.
-	// 4. Make the habit "locked" until the timer has been reached.
-	// 5. Once the habit is "unlocked" the UI changes and the user can click the habit and finish it.
-
-	const completeHabit = (Id: string) => {
+	const completeHabit = (passedId: string) => {
 		setHabits(
 			// TODO: REFACTOR AWAY FROM :any
 			habits.map((habit: any) => {
-				return habit.Id === Id ? { ...habit, isDone: !habit.isDone } : habit;
+				return habit.id === passedId
+					? { ...habit, isDone: !habit.isDone }
+					: habit;
 			})
 		);
 	};
 
+	const startCountDown = (passedId: string, duration: number) => {
+		// TEST ONE
+		const timeToUnlock = addMinutes(1);
+		// REAL ONE
+		// const timeToUnlock = addMinutes(duration * 60);
+
+		if (countDown < new Date()) {
+			setCountDown(timeToUnlock);
+			localStorage.setItem('mytime', countDown.getTime().toString());
+
+			setHabits(
+				habits.map((habit: any) => {
+					return habit.id === passedId ? { ...habit, isClicked: true } : habit;
+				})
+			);
+		} else {
+			console.log('else');
+		}
+	};
+
 	//TODO: REFACTOR AWAY FROM :any
 	const renderedHabits = habits.map((habit: any) => {
-		return (
-			<StyledHabitBox
-				onClick={() => completeHabit(habit.Id)}
-				className='HabitBox'
-				id={habit.Id}
-				isDone={habit.isDone}
-				duration={habit.Duration}
-				emojie={habit.Emoji}
-				habitTitle={habit.Title}
-				timeStart={habit.timeStart}
-				key={uuid()}
-			/>
+		return habit.isDone ? (
+			<>
+				<StyledHabitBox
+					onClick={() => completeHabit(habit.id)}
+					className='HabitBox'
+					id={habit.id}
+					isDone={habit.isDone}
+					duration={habit.duration}
+					emojie={habit.emojie}
+					habitTitle={habit.title}
+					timeStart={habit.timeStart}
+					key={uuid()}
+				/>
+			</>
+		) : (
+			<>
+				{habit.isClicked ? (
+					<Countdown date={countDown}>
+						<StyledHabitBox
+							onClick={() => completeHabit(habit.id)}
+							className='HabitBox'
+							id={habit.id}
+							isDone={habit.isDone}
+							duration={habit.duration}
+							emojie={habit.emojie}
+							habitTitle={habit.title}
+							timeStart={habit.timeStart}
+							key={uuid()}
+						/>
+					</Countdown>
+				) : (
+					<StyledHabitBox
+						onClick={() => startCountDown(habit.id, habit.duration)}
+						className='HabitBox'
+						id={habit.id}
+						isDone={habit.isDone}
+						duration={habit.duration}
+						emojie={habit.emojie}
+						habitTitle={habit.title}
+						timeStart={habit.timeStart}
+						key={uuid()}
+					/>
+				)}
+			</>
 		);
 	});
 
