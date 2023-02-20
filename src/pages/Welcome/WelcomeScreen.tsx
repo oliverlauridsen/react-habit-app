@@ -1,35 +1,30 @@
-import { useEffect } from 'react';
-import { gapi } from 'gapi-script';
-import '../../assets/css/App.css';
-import Container from '../../components/UI/Container';
-import Header from '../../components/UI/Header';
-import WelcomeSVG from '../../assets/images/meditate.svg';
-import SunSVG from '../../assets/images/sun.svg';
-import '../../assets/css/index.css';
-import CustomImage from '../../components/UI/CustomImage';
-import Sun from '../../components/UI/Sun';
-import StyledGoogleButton from '../../components/UI/StyledGoogleButton';
-import { Example } from './Example';
-// import { addDoc, collection, getDocs } from 'firebase/firestore';
-import { StyledSignInForm } from './SignInForm';
+import { useEffect } from "react";
+import { gapi } from "gapi-script";
+import "../../assets/css/App.css";
+import Container from "../../components/UI/Container";
+import Header from "../../components/UI/Header";
+import WelcomeSVG from "../../assets/images/meditate.svg";
+import SunSVG from "../../assets/images/sun.svg";
+import "../../assets/css/index.css";
+import CustomImage from "../../components/UI/CustomImage";
+import Sun from "../../components/UI/Sun";
+import StyledGoogleButton from "../../components/UI/StyledGoogleButton";
+import { Example } from "./Example";
+import { StyledSignInForm } from "./SignInForm";
 
 function WelcomeScreen() {
 	const clientId =
-		'85237359971-eg77ceikdaic9ubnnit2thkd88qt01ed.apps.googleusercontent.com';
+		"85237359971-eg77ceikdaic9ubnnit2thkd88qt01ed.apps.googleusercontent.com";
 
 	useEffect(() => {
 		const initClient = () => {
 			gapi.client.init({
 				clientId: clientId,
-				scope: '',
+				scope: "",
 			});
 		};
-		gapi.load('client:auth2', initClient);
+		gapi.load("client:auth2", initClient);
 	});
-
-	const testFunctionToChild = (message: string) => {
-		// setMessage(message);
-	};
 
 	return (
 		<>
@@ -45,10 +40,9 @@ function WelcomeScreen() {
 
 					<StyledGoogleButton
 						buttonText='Sign up with Google'
-						className='needsToBeHere'
-					></StyledGoogleButton>
+						className='needsToBeHere'></StyledGoogleButton>
 
-					<Example testFunctionToChild={testFunctionToChild} />
+					<Example />
 					<p> or </p>
 					<StyledSignInForm className='sign-in-form'></StyledSignInForm>
 				</Container>

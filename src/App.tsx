@@ -1,23 +1,23 @@
-import React from 'react';
+import React from "react";
 import {
 	createBrowserRouter,
 	createRoutesFromElements,
 	Route,
 	Outlet,
 	RouterProvider,
-} from 'react-router-dom';
-import { StyledNavBar } from './components/navigation/NavBar';
-import ErrorPage from './pages/Error/ErrorPage';
-import { HomeDashboard } from './pages/Home/HomeDashboard';
-import { IntroScreen } from './pages/Intro/IntroScreen';
-import { HabitDashboard } from './pages/HabitPage/HabitPage';
-import { SingleHabit } from './components/navigation/RouteSingleHabit';
-import { ProfileDashboard } from './pages/Profile/ProfileDashboard';
-import { SettingsDashboard } from './pages/Settings/SettingsDashboard';
-import WelcomeScreen from './pages/Welcome/WelcomeScreen';
-import { Styledhabits } from './pages/HabitPage/Habits/Habits';
-import { AddHabit } from './pages/AddHabit/AddHabit';
-import { Helmet } from 'react-helmet';
+} from "react-router-dom";
+import { StyledNavBar } from "./components/navigation/NavBar";
+import ErrorPage from "./pages/Error/ErrorPage";
+import { HomeDashboard } from "./pages/Home/HomeDashboard";
+import { IntroScreen } from "./pages/Intro/IntroScreen";
+import { HabitDashboard } from "./pages/HabitPage/HabitPage";
+import { SingleHabit } from "./components/navigation/RouteSingleHabit";
+import { ProfileDashboard } from "./pages/Profile/ProfileDashboard";
+import { SettingsDashboard } from "./pages/Settings/SettingsDashboard";
+import WelcomeScreen from "./pages/Welcome/WelcomeScreen";
+import { Styledhabits } from "./pages/HabitPage/Habits/Habits";
+import { AddHabit } from "./pages/AddHabit/AddHabit";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 export const App: React.FC = () => {
 	const router = createBrowserRouter(
@@ -50,19 +50,21 @@ const Root = () => {
 	let navBarIsShown = false;
 
 	if (
-		currentURL !== 'http://localhost:3000/' &&
-		currentURL !== 'http://localhost:3000/intro'
+		currentURL !== "http://localhost:3000/" &&
+		currentURL !== "http://localhost:3000/intro"
 	) {
 		navBarIsShown = true;
 	}
+
 	return (
 		<div>
-			<Helmet>
-				<meta charSet='utf-8' />
-				<meta name='viewport' content='width=device-width' />
-				<title>My Title</title>
-				<link rel='canonical' href='http://mysite.com/example' />
-			</Helmet>
+			<HelmetProvider>
+				<Helmet>
+					<meta charSet='utf-8' />
+					<meta name='viewport' content='width=device-width' />
+					<title>Habit App</title>
+				</Helmet>
+			</HelmetProvider>
 
 			{navBarIsShown && <StyledNavBar className='navbar' />}
 			<Outlet />

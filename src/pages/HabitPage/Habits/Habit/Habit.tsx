@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import HabitStatusImage from '../../../../components/UI/Checkmark';
-import CheckMarkSVG from '../../../../assets/images/checkmark.svg';
-import QuestionMarkSvg from '../../../../assets/images/questionMark.svg';
+import React from "react";
+import styled from "styled-components";
+import HabitStatusImage from "../../../../components/UI/Checkmark";
+import CheckMarkSVG from "../../../../assets/images/checkmark.svg";
+import QuestionMarkSvg from "../../../../assets/images/questionMark.svg";
 
 interface SingleHabitBoxProps {
 	isDone: Boolean;

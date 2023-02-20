@@ -1,20 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { StyledHabitBox } from './Habit/Habit';
-import styled from 'styled-components';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import {
-	collection,
-	query,
-	where,
-	getDocs,
-	setDoc,
-	doc,
-} from 'firebase/firestore';
-import { db } from '../../../utils/firebase';
-import { useProgress } from '../HabitPage';
-import uuid from 'react-uuid';
-import { StyledCounter } from '../Counter/Counter';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { StyledHabitBox } from "./Habit/Habit";
+import styled from "styled-components";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { db } from "../../../utils/firebase";
+import { useProgress } from "../HabitPage";
+import uuid from "react-uuid";
+import { StyledCounter } from "../Counter/Counter";
+import { useParams } from "react-router-dom";
 
 interface HabitsProps {
 	className?: string;
@@ -44,15 +37,15 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 		return currentdate;
 	}
 
-	const [currentUser, setCurrentUser] = useState('not empty');
+	const [currentUser, setCurrentUser] = useState("not empty");
 	const [habits, setHabits] = useState([{}]);
 
-	if (localStorage.getItem('mytime') === null) {
-		localStorage.setItem('mytime', new Date().toString());
+	if (localStorage.getItem("mytime") === null) {
+		localStorage.setItem("mytime", new Date().toString());
 	}
 
 	const [countDown, setCountDown] = useState(
-		new Date(localStorage.getItem('mytime')!)
+		new Date(localStorage.getItem("mytime")!)
 	);
 
 	const unDoneHabits = habits.filter((habit: any) => !habit.isDone).length;
@@ -76,7 +69,7 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 			// 2. GET THE ID
 
 			const querySnapshot = await getDocs(
-				collection(db, 'Users', currentUser, 'Habits')
+				collection(db, "Users", currentUser, "Habits")
 				// q
 			);
 			let stateArray: Object[] = [];
@@ -108,13 +101,13 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 		await setDoc(
 			doc(
 				db,
-				'Users',
+				"Users",
 				currentUser,
-				'Dates',
+				"Dates",
 				`0${dayNumber}-02-2023`,
-				'Habits',
+				"Habits",
 				// TODO: MAKE THIS ID DYNAMIC
-				'rivwsGjS2Uaon3vmi616'
+				"rivwsGjS2Uaon3vmi616"
 			),
 			{
 				id: passedId,
@@ -145,7 +138,7 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 		// const timeToUnlock = addMinutes(duration * 60);
 		if (countDown < new Date()) {
 			setCountDown(timeToUnlock);
-			localStorage.setItem('mytime', countDown.toString());
+			localStorage.setItem("mytime", countDown.toString());
 
 			setHabits(
 				habits.map((habit: any) => {
@@ -153,7 +146,7 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 				})
 			);
 		} else {
-			console.log('else');
+			console.log("else");
 		}
 	};
 

@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import StyledForm from './StyledForm';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import StyledForm from "./StyledForm";
+import { useForm, SubmitHandler } from "react-hook-form";
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
-} from 'firebase/auth';
-import { auth } from '../../utils/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+} from "firebase/auth";
+import { auth } from "../../utils/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 type Inputs = {
 	email: string;
@@ -22,8 +22,8 @@ function AnimatedForm() {
 		formState: { errors },
 	} = useForm<Inputs>();
 
-	const [registerEmail, setRegisterEmail] = useState('');
-	const [registerPassword, setRegisterPassword] = useState('');
+	const [registerEmail, setRegisterEmail] = useState("");
+	const [registerPassword, setRegisterPassword] = useState("");
 	const [user, setUser] = useState<any>({});
 	const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ function AnimatedForm() {
 				registerEmail,
 				registerPassword
 			);
-			navigate('/intro');
+			navigate("/intro");
 		} catch (error: any) {
 			console.log(error.message);
 		}
@@ -50,11 +50,10 @@ function AnimatedForm() {
 		<motion.div
 			variants={{ collapsed: { scale: 1 }, open: { scale: 1 } }}
 			transition={{ duration: 0.5 }}
-			className='content-placeholder'
-		>
+			className='content-placeholder'>
 			<StyledForm onSubmit={handleSubmit(onSubmit)}>
 				<input
-					{...register('email', { required: 'Email is required' })}
+					{...register("email", { required: "Email is required" })}
 					placeholder='Email'
 					onChange={(event) => {
 						setRegisterEmail(event.target.value);
@@ -63,7 +62,7 @@ function AnimatedForm() {
 				<span>{errors.email?.message}</span>
 				<input
 					type='password'
-					{...register('password', { required: 'Password is required' })}
+					{...register("password", { required: "Password is required" })}
 					placeholder='Password'
 					onChange={(event) => {
 						setRegisterPassword(event.target.value);

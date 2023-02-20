@@ -1,13 +1,12 @@
-import * as React from 'react';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import AnimatedForm from './AnimatedForm';
+import * as React from "react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import AnimatedForm from "./AnimatedForm";
 
 interface Props {
 	i: number;
 	expanded: number | false;
 	setExpanded: React.Dispatch<React.SetStateAction<number | false>>;
-	testFunctionToChild: (message: string) => void;
 }
 
 const Accordion: React.FunctionComponent<Props> = ({
@@ -16,19 +15,15 @@ const Accordion: React.FunctionComponent<Props> = ({
 	setExpanded,
 }) => {
 	const isOpen = i === expanded;
-
-	// By using `AnimatePresence` to mount and unmount the contents, we can animate
-	// them in and out while also only rendering the contents of open accordions
 	return (
 		<>
 			<motion.header
 				initial={false}
 				animate={{
-					backgroundColor: isOpen ? '#ffcb5b' : '#3b2a37',
-					color: isOpen ? '#3b2a37' : 'white',
+					backgroundColor: isOpen ? "#ffcb5b" : "#3b2a37",
+					color: isOpen ? "#3b2a37" : "white",
 				}}
-				onClick={() => setExpanded(isOpen ? false : i)}
-			>
+				onClick={() => setExpanded(isOpen ? false : i)}>
 				Sign up with email
 			</motion.header>
 			<AnimatePresence initial={false}>
@@ -39,11 +34,10 @@ const Accordion: React.FunctionComponent<Props> = ({
 						animate='open'
 						exit='collapsed'
 						variants={{
-							open: { opacity: 1, height: 'auto' },
+							open: { opacity: 1, height: "auto" },
 							collapsed: { opacity: 0, height: 0 },
 						}}
-						transition={{ duration: 1, ease: [0.04, 0.62, 0.23, 0.98] }}
-					>
+						transition={{ duration: 1, ease: [0.04, 0.62, 0.23, 0.98] }}>
 						<AnimatedForm />
 					</motion.section>
 				)}
@@ -52,14 +46,8 @@ const Accordion: React.FunctionComponent<Props> = ({
 	);
 };
 
-export const Example: Function = (
-	testFunctionToChild: (message: string) => void
-): React.ReactElement[] => {
-	// This approach is if you only want max one section open at a time. If you want multiple
-	// sections to potentially be open simultaneously, they can all be given their own `useState`.
+export const Example: Function = (): React.ReactElement[] => {
 	const [expanded, setExpanded] = useState<false | number>(1);
-
-	// return {options.map(opt => opt)}</>
 
 	return accordionIds.map((i) => (
 		<Accordion
@@ -67,7 +55,6 @@ export const Example: Function = (
 			key={i.toString()}
 			expanded={expanded}
 			setExpanded={setExpanded}
-			testFunctionToChild={testFunctionToChild}
 		/>
 	));
 };
