@@ -16,6 +16,8 @@ import { ProfileDashboard } from './pages/Profile/ProfileDashboard';
 import { SettingsDashboard } from './pages/Settings/SettingsDashboard';
 import WelcomeScreen from './pages/Welcome/WelcomeScreen';
 import { Styledhabits } from './pages/HabitPage/Habits/Habits';
+import { AddHabit } from './pages/AddHabit/AddHabit';
+import { Helmet } from 'react-helmet';
 
 export const App: React.FC = () => {
 	const router = createBrowserRouter(
@@ -31,6 +33,7 @@ export const App: React.FC = () => {
 				<Route path='/user' element={<ProfileDashboard />}></Route>
 				<Route path='/settings' element={<SettingsDashboard />}></Route>
 				<Route path='/habit/:habitID' element={<SingleHabit />} />
+				<Route path='/addHabit' element={<AddHabit />}></Route>
 			</Route>
 		)
 	);
@@ -54,6 +57,13 @@ const Root = () => {
 	}
 	return (
 		<div>
+			<Helmet>
+				<meta charSet='utf-8' />
+				<meta name='viewport' content='width=device-width' />
+				<title>My Title</title>
+				<link rel='canonical' href='http://mysite.com/example' />
+			</Helmet>
+
 			{navBarIsShown && <StyledNavBar className='navbar' />}
 			<Outlet />
 		</div>

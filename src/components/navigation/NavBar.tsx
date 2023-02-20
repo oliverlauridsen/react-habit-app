@@ -26,7 +26,7 @@ const NavBar: React.FC<NavBarProps> = ({ className }) => {
 					src={HabitIcon}
 					alt='Habit Icon'
 				/>
-				<button> + </button>
+				<button onClick={() => navigate('/addHabit')}> + </button>
 				<img
 					onClick={() => navigate('/user')}
 					src={PersonIcon}
@@ -56,6 +56,7 @@ export const StyledNavBar = styled(NavBar)`
 		justify-content: space-around;
 		position: relative;
 	}
+
 	img {
 		width: 25px;
 		padding: 20px 0;

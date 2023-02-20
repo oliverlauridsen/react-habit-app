@@ -29,6 +29,8 @@
 	box-sizing: border-box;
 	-ms-overflow-style: none;
 	scrollbar-width: none;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 }
 
 .styled-weekly-progress-wrapper {
