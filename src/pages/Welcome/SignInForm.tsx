@@ -1,16 +1,17 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react';
-import { auth } from '../../utils/firebase';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from "react";
+import { auth } from "../../utils/firebase";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { getAuth } from "firebase/auth";
 
 interface SignInFormProps {
 	className: string;
 }
 
 export const SignInForm: React.FC<SignInFormProps> = ({ className }) => {
-	const [userEmail, setUserEmail] = useState('');
-	const [userPassword, setUserPassword] = useState('');
+	const [userEmail, setUserEmail] = useState("");
+	const [userPassword, setUserPassword] = useState("");
 	const navigate = useNavigate();
 	const today = new Date().getDate();
 
@@ -25,11 +26,11 @@ export const SignInForm: React.FC<SignInFormProps> = ({ className }) => {
 		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
 				// Signed in
-				// const user = userCredential.user;
+				const user = userCredential.user;
 				navigate(`/habits/${today}`);
 			})
 			.catch((error) => {
-				// const errorCode = error.code;
+				const errorCode = error.code;
 				const errorMessage = error.message;
 				console.log(errorMessage);
 			});
@@ -50,8 +51,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({ className }) => {
 				placeholder='Password'
 				onClick={(event) =>
 					signInUserWithEmailAndPassword(auth, userEmail, userPassword, event)
-				}
-			>
+				}>
 				Sign in with email
 			</button>
 		</form>
@@ -60,6 +60,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({ className }) => {
 
 export const StyledSignInForm = styled(SignInForm)`
 	width: 100%;
+	padding-bottom: 75px;
 
 	input {
 		border: none;

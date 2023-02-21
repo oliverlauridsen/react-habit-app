@@ -15,15 +15,14 @@ interface HabitsProps {
 
 export const Habits: React.FC<HabitsProps> = ({ className }) => {
 	let { dayNumber } = useParams();
-
-	console.log(dayNumber);
+	const { setprogressPercentage } = useProgress();
 
 	const auth = getAuth();
-	const { setprogressPercentage } = useProgress();
 
 	onAuthStateChanged(auth, (user) => {
 		if (user) {
 			const uid = user.uid;
+			console.log(currentUser);
 
 			if (uid !== currentUser) {
 				setCurrentUser(uid);
@@ -70,7 +69,6 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 
 			const querySnapshot = await getDocs(
 				collection(db, "Users", currentUser, "Habits")
-				// q
 			);
 			let stateArray: Object[] = [];
 			querySnapshot.forEach((doc) => {

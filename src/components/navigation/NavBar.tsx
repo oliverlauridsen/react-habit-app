@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import HomeIcon from '../../assets/images/navigation/home.svg';
-import HabitIcon from '../../assets/images/navigation/habit.svg';
-import PersonIcon from '../../assets/images/navigation/person.svg';
-import SettingsIcon from '../../assets/images/navigation/settings.svg';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import HomeIcon from "../../assets/images/navigation/home.svg";
+import HabitIcon from "../../assets/images/navigation/habit.svg";
+import PersonIcon from "../../assets/images/navigation/person.svg";
+import SettingsIcon from "../../assets/images/navigation/settings.svg";
+import { useNavigate } from "react-router-dom";
 
 interface NavBarProps {
 	className?: string;
@@ -17,7 +17,7 @@ const NavBar: React.FC<NavBarProps> = ({ className }) => {
 		<div className={className}>
 			<div>
 				<img
-					onClick={() => navigate('/home')}
+					onClick={() => navigate("/home")}
 					src={HomeIcon}
 					alt='House Icon'
 				/>
@@ -26,14 +26,14 @@ const NavBar: React.FC<NavBarProps> = ({ className }) => {
 					src={HabitIcon}
 					alt='Habit Icon'
 				/>
-				<button onClick={() => navigate('/addHabit')}> + </button>
+				<button onClick={() => navigate("/addHabit")}> + </button>
 				<img
-					onClick={() => navigate('/user')}
+					onClick={() => navigate("/user")}
 					src={PersonIcon}
 					alt='User Icon'
 				/>
 				<img
-					onClick={() => navigate('/settings')}
+					onClick={() => navigate("/settings")}
 					src={SettingsIcon}
 					alt='Settings Icon'
 				/>
@@ -49,6 +49,7 @@ export const StyledNavBar = styled(NavBar)`
 	background-color: white;
 	justify-content: space-around;
 	box-shadow: 0px 4px 20px 0px #00000040;
+	z-index: 1;
 
 	div {
 		width: 100%;

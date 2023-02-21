@@ -1,18 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 interface CategoriesProps {
 	className: string;
-	category: any;
 }
 
-export const Categories: React.FC<CategoriesProps> = ({
-	className,
-	category,
-}) => {
+export const Categories: React.FC<CategoriesProps> = ({ className }) => {
 	const handleClick = (e: EventTarget) => {
 		const allCheckBoxes = document.querySelectorAll(
-			'.hidden-checkbox'
+			".hidden-checkbox"
 		) as NodeListOf<HTMLInputElement>;
 
 		allCheckBoxes.forEach((checkbox) => {
@@ -27,7 +24,6 @@ export const Categories: React.FC<CategoriesProps> = ({
 			<b> Category </b>
 			<div className={className}>
 				<input
-					// category={category}
 					className='hidden-checkbox'
 					onClick={(e) => handleClick(e.target)}
 					id='Health'
