@@ -15,14 +15,35 @@ interface HabitsProps {
 
 export const Habits: React.FC<HabitsProps> = ({ className }) => {
 	let { dayNumber } = useParams();
+	const [currentUser, setCurrentUser] = useState("not empty");
+	const [habits, setHabits] = useState([{}]);
+	console.log(habits);
 	const { setprogressPercentage } = useProgress();
-
 	const auth = getAuth();
+
+	if (localStorage.getItem("timeToUnlock") === null) {
+		localStorage.setItem("timeToUnlock", new Date().toString());
+	}
+
+	if (localStorage.getItem("idOfLockedHabit") === null) {
+		localStorage.setItem("idOfLockedHabit", "");
+	}
+
+	const [idOfLockedHabit, setIdOfLockedHabit] = useState(
+		localStorage.getItem("idOfLockedHabit")
+	);
+
+	const [countDown, setCountDown] = useState(
+		new Date(localStorage.getItem("timeToUnlock")!)
+	);
+
+	if (Number(dayNumber) < 10) {
+		dayNumber = "0" + dayNumber;
+	}
 
 	onAuthStateChanged(auth, (user) => {
 		if (user) {
 			const uid = user.uid;
-			console.log(currentUser);
 
 			if (uid !== currentUser) {
 				setCurrentUser(uid);
@@ -36,107 +57,103 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 		return currentdate;
 	}
 
-	const [currentUser, setCurrentUser] = useState("not empty");
-	const [habits, setHabits] = useState([{}]);
-
-	if (localStorage.getItem("mytime") === null) {
-		localStorage.setItem("mytime", new Date().toString());
-	}
-
-	const [countDown, setCountDown] = useState(
-		new Date(localStorage.getItem("mytime")!)
-	);
-
-	const unDoneHabits = habits.filter((habit: any) => !habit.isDone).length;
+	const doneHabits = habits.filter((habit: any) => habit.isDone).length;
 
 	useEffect(() => {
-		// declare the data fetching function
 		const fetchData = async () => {
-			// 1. QUERY FOR CURRENT DATE AND CHECK IF ANY IS CLICKED
-			// const q = query(
-			// 	collection(
-			// 		db,
-			// 		'Users',
-			// 		currentUser,
-			// 		'Dates',
-			// 		`0${dayNumber}-02-2023`,
-			// 		'Habits'
-			// 	),
-			// 	where('isDone', '==', true)
-			// );
+			// Check current day of habits to see if any of the habits are already done and should be used for state
+			const completedHabitsSnapshot = await getDocs(
+				collection(
+					db,
+					"Users",
+					currentUser,
+					"Dates",
+					`${dayNumber}-02-2023`,
+					"Habits"
+				)
+			);
 
-			// 2. GET THE ID
+			// Push any of the habits that are completed to an array
+			let habitArray: Object[] = [];
+			completedHabitsSnapshot.forEach((doc) => {
+				habitArray.push({ id: doc.id, ...doc.data() });
+			});
 
+			// Check the general one
 			const querySnapshot = await getDocs(
 				collection(db, "Users", currentUser, "Habits")
 			);
-			let stateArray: Object[] = [];
+
+			// Skip any of the habits that are already completed, and push the
 			querySnapshot.forEach((doc) => {
-				stateArray.push(doc.data());
+				const isObjectPresent = habitArray.find(
+					(habit: any) => habit.id === doc.id
+				);
+				if (isObjectPresent == undefined) {
+					habitArray.push({ id: doc.id, ...doc.data() });
+				}
 			});
-			setHabits(stateArray);
+
+			setHabits(habitArray);
 		};
 
 		fetchData().catch(console.error);
 	}, [currentUser, dayNumber]);
 
-	//TODO: REFACTOR - not the prettiest looking useEffect
 	useEffect(() => {
-		if (habits.length === 0) {
-			setprogressPercentage(0);
-		} else if (unDoneHabits === 0) {
+		if (doneHabits === habits.length) {
 			setprogressPercentage(100);
-		} else if (unDoneHabits === habits.length) {
+		} else if (doneHabits === habits.length) {
 			setprogressPercentage(0);
 		} else {
-			setprogressPercentage((unDoneHabits * 100) / habits.length);
+			setprogressPercentage((doneHabits * 100) / habits.length);
 		}
-	}, [habits, setprogressPercentage, unDoneHabits]);
+	}, [habits, setprogressPercentage, doneHabits]);
 
-	const completeHabit = async (passedId: string) => {
-		console.log(passedId);
-
+	const completeHabit = async (passedHabit: any) => {
+		setHabits(
+			habits.map((habit: any) => {
+				return habit.id === passedHabit.id
+					? { ...habit, isDone: !habit.isDone }
+					: habit;
+			})
+		);
 		await setDoc(
 			doc(
 				db,
 				"Users",
 				currentUser,
 				"Dates",
-				`0${dayNumber}-02-2023`,
+				`${dayNumber}-02-2023`,
 				"Habits",
-				// TODO: MAKE THIS ID DYNAMIC
-				"rivwsGjS2Uaon3vmi616"
+				passedHabit.id
 			),
 			{
-				id: passedId,
-				isClicked: false,
+				category: passedHabit.category,
+				duration: passedHabit.duration,
+				emojie: passedHabit.emojie,
+				id: passedHabit.id,
 				isDone: true,
+				timeStart: passedHabit.timeStart,
+				title: passedHabit.title,
+				weeklyGoal: passedHabit.weeklyGoal,
 			}
 		);
-
-		habits.map((habit: any) => {
-			return habit.id === passedId
-				? { ...habit, isDone: !habit.isDone }
-				: habit;
-		});
-
-		// 		db,
-		// 		'Users',
-		// 		currentUser,
-		// 		'Dates',
-		// 		`0${dayNumber}-02-2023`,
-		// 		'Habits'
 	};
 
 	const startCountDown = (passedId: string, duration: number) => {
-		console.log(passedId);
-		// TEST ONE
-		const timeToUnlock = addMinutes(1);
-		// REAL ONE
-		// const timeToUnlock = addMinutes(duration * 60);
+		// To test:
+		const timeToUnlockDate = new Date();
+		timeToUnlockDate.setSeconds(timeToUnlockDate.getSeconds() + 3);
+
+		// const timeToUnlockDate = addMinutes(duration * 60);
+
 		if (countDown < new Date()) {
-			setCountDown(timeToUnlock);
-			localStorage.setItem("mytime", countDown.toString());
+			setCountDown(timeToUnlockDate);
+			setIdOfLockedHabit(passedId);
+
+			localStorage.setItem("timeToUnlock", timeToUnlockDate.toString());
+			localStorage.setItem("idOfLockedHabit", passedId);
 
 			setHabits(
 				habits.map((habit: any) => {
@@ -153,7 +170,7 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 		return habit.isDone ? (
 			<>
 				<StyledHabitBox
-					onClick={() => completeHabit(habit.id)}
+					onClick={() => console.log("habit is done!")}
 					className='HabitBox'
 					id={habit.id}
 					isDone={habit.isDone}
@@ -161,15 +178,19 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 					emojie={habit.emojie}
 					habitTitle={habit.title}
 					timeStart={habit.timeStart}
-					key={uuid()}
+					key={habit.id}
 				/>
 			</>
 		) : (
 			<>
-				{habit.isClicked ? (
-					<StyledCounter key={uuid()} date={countDown}>
+				{idOfLockedHabit == habit.id ? (
+					<StyledCounter
+						key={uuid()}
+						date={countDown}
+						// onClick={() => console.log("test")}
+					>
 						<StyledHabitBox
-							onClick={() => completeHabit(habit.id)}
+							onClick={() => completeHabit(habit)}
 							className='HabitBox'
 							id={habit.id}
 							isDone={habit.isDone}
@@ -177,7 +198,7 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 							emojie={habit.emojie}
 							habitTitle={habit.title}
 							timeStart={habit.timeStart}
-							key={uuid()}
+							key={habit.id}
 						/>
 					</StyledCounter>
 				) : (
@@ -190,7 +211,7 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 						emojie={habit.emojie}
 						habitTitle={habit.title}
 						timeStart={habit.timeStart}
-						key={uuid()}
+						key={habit.id}
 					/>
 				)}
 			</>

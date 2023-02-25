@@ -4,18 +4,21 @@ import { StyledHeaderBanner } from "../../components/UI/HeaderBanner";
 import StyledForm from "../Welcome/StyledForm";
 import styled from "styled-components";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 interface AddHabitProps {}
 
 export const AddHabit: React.FC<AddHabitProps> = ({}) => {
+	const navigate = useNavigate();
+	const today = new Date().getDate();
+
 	type Inputs = {
 		habitTitle: string;
 		Category: string;
 		weeklyGoal: number;
-		exampleRequired: string;
 		duration: number;
 		icon: string;
 		timeStart: string;
@@ -30,11 +33,16 @@ export const AddHabit: React.FC<AddHabitProps> = ({}) => {
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
 		console.log(data);
 
-		await setDoc(doc(db, "cities", "LA"), {
-			name: "Los Angeles",
-			state: "CA",
-			country: "USA",
+		await addDoc(collection(db, "Users", currentUser, "Habits"), {
+			category: data.Category[0],
+			duration: data.duration,
+			emojie: data.icon,
+			isDone: false,
+			timeStart: data.timeStart,
+			title: data.habitTitle,
+			weeklyGoal: data.weeklyGoal,
 		});
+		navigate(`/habits/${today}`);
 	};
 
 	const handleClick = (e: EventTarget) => {
@@ -63,8 +71,6 @@ export const AddHabit: React.FC<AddHabitProps> = ({}) => {
 	});
 
 	const [currentUser, setCurrentUser] = useState("not empty");
-
-	// console.log(currentUser);
 
 	return (
 		<ColoredContainer>
@@ -114,7 +120,11 @@ export const AddHabit: React.FC<AddHabitProps> = ({}) => {
 					<span style={{ color: "#ec603c" }}>{errors.duration?.message}</span>
 
 					<input
-						{...register("duration", { required: "Required" })}
+						type='number'
+						{...register("duration", {
+							required: "Required",
+							valueAsNumber: true,
+						})}
 						id='duration'
 						name='duration'
 						placeholder='Ex. "2"'
@@ -164,13 +174,13 @@ export const AddHabit: React.FC<AddHabitProps> = ({}) => {
 							{...register("Category", { required: "Required" })}
 							className='hidden-checkbox'
 							onClick={(e) => handleClick(e.target)}
-							id='Fitness'
+							id='Career'
 							type='checkbox'
 							name='Category'
-							value='Fitness'
+							value='Career'
 						/>
-						<label className='shown-labels' htmlFor='Fitness'>
-							<span className='check'>✓</span>Fitness
+						<label className='shown-labels' htmlFor='Career'>
+							<span className='check'>✓</span>Career
 						</label>
 						<input
 							{...register("Category", { required: "Required" })}
