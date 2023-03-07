@@ -8,6 +8,8 @@ import { useProgress } from "../HabitPage";
 import uuid from "react-uuid";
 import { StyledCounter } from "../Counter/Counter";
 import { useParams } from "react-router-dom";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 interface HabitsProps {
 	className?: string;
@@ -15,9 +17,10 @@ interface HabitsProps {
 
 export const Habits: React.FC<HabitsProps> = ({ className }) => {
 	let { dayNumber } = useParams();
+
 	const [currentUser, setCurrentUser] = useState("not empty");
 	const [habits, setHabits] = useState([{}]);
-	console.log(habits);
+
 	const { setprogressPercentage } = useProgress();
 	const auth = getAuth();
 
@@ -41,6 +44,13 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 		dayNumber = "0" + dayNumber;
 	}
 
+	let currentMonthNumber = (new Date().getMonth() + 1).toString();
+
+	if (currentMonthNumber.toString().length < 2)
+		currentMonthNumber = "0" + currentMonthNumber;
+
+	const currentYear = new Date().getFullYear();
+
 	onAuthStateChanged(auth, (user) => {
 		if (user) {
 			const uid = user.uid;
@@ -50,6 +60,31 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 			}
 		}
 	});
+
+	const confirmAlertOptions = {
+		title: "Are you sure you want to undo your habit?",
+		message:
+			"You will have to wait the full duration of the habit to complete it again",
+		buttons: [
+			{
+				label: "Yes",
+				onClick: () => alert("delete"),
+			},
+			{
+				label: "No",
+				// onClick: () => alert("Click No"),
+			},
+		],
+		closeOnEscape: true,
+		closeOnClickOutside: true,
+		keyCodeForClose: [8, 32],
+		willUnmount: () => {},
+		afterClose: () => {},
+		onClickOutside: () => {},
+		onKeypress: () => {},
+		onKeypressEscape: () => {},
+		overlayClassName: "overlay-custom-class-name",
+	};
 
 	function addMinutes(minutes: number) {
 		const currentdate = new Date();
@@ -68,7 +103,7 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 					"Users",
 					currentUser,
 					"Dates",
-					`${dayNumber}-02-2023`,
+					`${dayNumber}-${currentMonthNumber}-${currentYear}`,
 					"Habits"
 				)
 			);
@@ -124,7 +159,7 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 				"Users",
 				currentUser,
 				"Dates",
-				`${dayNumber}-02-2023`,
+				`${dayNumber}-${currentMonthNumber}-${currentYear}`,
 				"Habits",
 				passedHabit.id
 			),
@@ -143,10 +178,10 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 
 	const startCountDown = (passedId: string, duration: number) => {
 		// To test:
-		const timeToUnlockDate = new Date();
-		timeToUnlockDate.setSeconds(timeToUnlockDate.getSeconds() + 3);
+		// const timeToUnlockDate = new Date();
+		// timeToUnlockDate.setSeconds(timeToUnlockDate.getSeconds() + 3);
 
-		// const timeToUnlockDate = addMinutes(duration * 60);
+		const timeToUnlockDate = addMinutes(duration * 60);
 
 		if (countDown < new Date()) {
 			setCountDown(timeToUnlockDate);
@@ -154,6 +189,12 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 
 			localStorage.setItem("timeToUnlock", timeToUnlockDate.toString());
 			localStorage.setItem("idOfLockedHabit", passedId);
+
+			if (dayNumber!.toString().length < 10) {
+				const newDayNumber = dayNumber!.substring(1);
+			}
+
+			localStorage.setItem("date", dayNumber!);
 
 			setHabits(
 				habits.map((habit: any) => {
@@ -170,7 +211,7 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 		return habit.isDone ? (
 			<>
 				<StyledHabitBox
-					onClick={() => console.log("habit is done!")}
+					onClick={() => confirmAlert(confirmAlertOptions)}
 					className='HabitBox'
 					id={habit.id}
 					isDone={habit.isDone}
@@ -183,12 +224,9 @@ export const Habits: React.FC<HabitsProps> = ({ className }) => {
 			</>
 		) : (
 			<>
-				{idOfLockedHabit == habit.id ? (
-					<StyledCounter
-						key={uuid()}
-						date={countDown}
-						// onClick={() => console.log("test")}
-					>
+				{idOfLockedHabit == habit.id &&
+				localStorage.getItem("date") == dayNumber ? (
+					<StyledCounter key={uuid()} date={countDown}>
 						<StyledHabitBox
 							onClick={() => completeHabit(habit)}
 							className='HabitBox'
@@ -226,4 +264,5 @@ export const Styledhabits = styled(Habits)`
 	grid-template-columns: 1fr 1fr;
 	gap: 20px;
 	margin: 20px;
+	padding-bottom: 100px;
 `;

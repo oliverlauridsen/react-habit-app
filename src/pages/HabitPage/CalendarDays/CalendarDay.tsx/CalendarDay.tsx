@@ -1,6 +1,6 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import styled, { css } from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
 	className?: string;
@@ -11,6 +11,8 @@ interface Props {
 	primary?: Boolean;
 	setCurrentPrimary: Function;
 	currentPrimary: number;
+	progressPercentage: number;
+	isCompleted?: Boolean;
 }
 
 export const CalendarDay: React.FC<Props> = ({
@@ -18,6 +20,7 @@ export const CalendarDay: React.FC<Props> = ({
 	dayNumber,
 	currentPrimary,
 	setCurrentPrimary,
+	progressPercentage,
 }) => {
 	const navigate = useNavigate();
 
@@ -35,29 +38,29 @@ export const CalendarDay: React.FC<Props> = ({
 
 	function getDayName(dateStr: string, locale: string) {
 		let date = new Date(dateStr);
-		return date.toLocaleDateString(locale, { weekday: 'short' });
+		return date.toLocaleDateString(locale, { weekday: "short" });
 	}
 
 	const setNewPrimaryAndRoute = () => {
-		// console.log('test');
 		setCurrentPrimary(dayNumber);
 		navigate(`${dayNumber}`);
 	};
 
 	return (
 		<StyledCalendarDay
+			progressPercentage={progressPercentage}
 			key={dayNumber}
 			onClick={() => setNewPrimaryAndRoute()}
 			className={className}
 			dayNumber={dayNumber}
 			primary={dayNumber === currentPrimary}
 			currentPrimary={currentPrimary}
-			setCurrentPrimary={() => console.log('test')}
-		>
+			setCurrentPrimary={() => console.log("test")}
+			isCompleted={progressPercentage === 100}>
 			<p>
 				{`${getDayName(
 					`0${currentMonthNumber}/0${dayNumber}/${currentYear}`,
-					'en-dk'
+					"en-dk"
 				)}`}
 			</p>
 			<p>{dayNumber}</p>
@@ -83,6 +86,16 @@ export const StyledCalendarDay = styled.div<Props>`
 		css`
 			background-color: #ec603c;
 			color: white;
+			width: 50px;
+			height: 50px;
+			padding: 10px;
+		`};
+
+	${(props) =>
+		props.isCompleted &&
+		css`
+			background-color: #ec603c;
+			color: red;
 			width: 50px;
 			height: 50px;
 			padding: 10px;

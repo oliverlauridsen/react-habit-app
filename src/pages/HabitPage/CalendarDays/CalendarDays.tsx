@@ -1,14 +1,16 @@
-import styled from 'styled-components';
-import { CalendarDay } from './CalendarDay.tsx/CalendarDay';
+import styled from "styled-components";
+import { CalendarDay } from "./CalendarDay.tsx/CalendarDay";
 
 interface Props {
 	setCurrentPrimary: Function;
 	currentPrimary: number;
+	progressPercentage: number;
 }
 
 const CalendarDays: React.FC<Props> = ({
 	currentPrimary,
 	setCurrentPrimary,
+	progressPercentage,
 }) => {
 	const getDays = (year: number, month: number) => {
 		return new Date(year, month, 0).getDate();
@@ -30,6 +32,7 @@ const CalendarDays: React.FC<Props> = ({
 				currentPrimary={currentPrimary}
 				key={dayNumber}
 				dayNumber={dayNumber}
+				progressPercentage={progressPercentage}
 			/>
 		);
 	});
@@ -37,9 +40,9 @@ const CalendarDays: React.FC<Props> = ({
 	return (
 		<div>
 			<StyledCalendarDays
+				progressPercentage={progressPercentage}
 				setCurrentPrimary={setCurrentPrimary}
-				currentPrimary={currentPrimary}
-			>
+				currentPrimary={currentPrimary}>
 				{daysOfTheWeek}
 			</StyledCalendarDays>
 		</div>
